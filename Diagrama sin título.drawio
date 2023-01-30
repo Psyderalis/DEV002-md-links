@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2023-01-30T16:38:42.498Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36" etag="kXxEB0f4M-weF9_d_I2F" version="20.5.1" type="github" pages="2">
+<mxfile host="app.diagrams.net" modified="2023-01-30T16:50:29.751Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36" etag="l-JS9Np-Z0Wn9t5Hn1Pb" version="20.5.1" type="github" pages="2">
   <diagram id="C5RBs43oDa-KdzZeNtuy" name="JS API">
     <mxGraphModel dx="1422" dy="1955" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
@@ -79,7 +79,7 @@
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
-        <mxCell id="l2Xy6neXnwkBu9nruc2r-1" value="&lt;h1&gt;&lt;font style=&quot;font-size: 30px;&quot;&gt;Command Line Interface&lt;/font&gt;&lt;/h1&gt;&lt;p&gt;&lt;font color=&quot;#004c99&quot; style=&quot;font-size: 20px;&quot;&gt;Módulo que debe poder importarse en otros scripts de Node.js. Se ejecuta en terminal.&lt;/font&gt;&lt;/p&gt;" style="text;html=1;strokeColor=none;fillColor=none;spacing=5;spacingTop=-20;whiteSpace=wrap;overflow=hidden;rounded=0;fontSize=30;fontColor=#FF3399;" vertex="1" parent="1">
+        <mxCell id="l2Xy6neXnwkBu9nruc2r-1" value="&lt;h1&gt;&lt;font style=&quot;font-size: 30px;&quot;&gt;Command Line Interface&lt;/font&gt;&lt;/h1&gt;&lt;p&gt;&lt;font color=&quot;#004c99&quot;&gt;&lt;span style=&quot;font-size: 20px;&quot;&gt;Ejecutable para el terminal.&lt;/span&gt;&lt;/font&gt;&lt;/p&gt;" style="text;html=1;strokeColor=none;fillColor=none;spacing=5;spacingTop=-20;whiteSpace=wrap;overflow=hidden;rounded=0;fontSize=30;fontColor=#FF3399;" vertex="1" parent="1">
           <mxGeometry x="380" y="-1150" width="367" height="260" as="geometry" />
         </mxCell>
         <mxCell id="fF7HtcsE-5X7kuMcpT92-73" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.48;entryY=0.015;entryDx=0;entryDy=0;entryPerimeter=0;fontFamily=Helvetica;fontSize=12;fontColor=#004C99;" edge="1" parent="1" source="3fHuWObO0ubu-4bMbvF9-1" target="fF7HtcsE-5X7kuMcpT92-68">
