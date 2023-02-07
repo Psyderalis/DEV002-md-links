@@ -4,10 +4,12 @@ const {
   validateOption,
   validateAbsolutePath,
   resolvePath,
-  validateDirOrMD
+  validateDirOrMD,
+  readDir
 } = require('../src/index.js');
 
-const validPath = './files-to-read/achicando.md';
+const validMDPath = './files-to-read/achicando.md';
+const validDirPath = './files-to-read';
 const invalidPath = 'achicando';
 const absolutePath = '/home/user/app.js';
 const relativePath = './app.js';
@@ -29,7 +31,10 @@ describe('Test to mdLinks()', () => {
 // test para validacion de path
 describe('Test to validatePath()', () => {
   test('Returns true for a valid path', () => {
-    return expect(validatePath(validPath)).resolves.toBe(true)
+    return expect(validatePath(validMDPath)).resolves.toBe(true)
+  });
+  test('Returns true for a valid path', () => {
+    return expect(validatePath(validDirPath)).resolves.toBe(true)
   });
   test('Throw error for an invalid path', () => {
     return expect(validatePath(invalidPath)).rejects.toThrow()
@@ -78,12 +83,22 @@ describe('Test to validateDirOrMD()', () => {
     return expect(validateDirOrMD(myCurrentWorkingDirectory)).resolves.toBe('dir')
   });
   test('Returns \'md file\' for a md file path', () => {
-    return expect(validateDirOrMD(validPath)).resolves.toBe('md file')
+    return expect(validateDirOrMD(validMDPath)).resolves.toBe('md file')
   });
   test('Throw error for an invalid file', () => {
     return expect(validateDirOrMD(invalidFile)).rejects.toThrow()
   });
 });
+
+// test para lectura de directorio
+describe('Test to readDir()', () => {
+  test('Returns an array of files and folders', () => {
+    return expect(readDir(validDirPath)).toEqual(["achicando.md","check.txt","consideraciones.txt","criterios.md","entreg-hackeredit.md","indice-preambulo.md","OAs.txt","resumen.md","tips.md",])
+  });
+});
+// test para extraer archivos md del directorio
+// test para lectura de archivo md
+// test para extraer links dentro de archivo md
 
 //------------------------------------
 /* describe('mdLinks', () => {

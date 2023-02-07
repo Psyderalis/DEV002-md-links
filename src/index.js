@@ -36,11 +36,11 @@ const validateAbsolutePath = myPath => path.isAbsolute(myPath);
 // resolver ruta relativa a absoluta
 const myCurrentWorkingDir = process.cwd();
 // const relativePath = './src/index.js';
-let resolvedPath = '';
 const resolvePath = (currentWorkingDir, relativePath) => {
-    resolvedPath = path.resolve(currentWorkingDir, relativePath);
-    return resolvedPath
+    return path.resolve(currentWorkingDir, relativePath);
 }
+//const resolvedPath = resolvePath();
+
 /* resolvePath(myCurrentWorkingDirectory, relativePath);
 console.log(`Current directory: ${currentWorkingDirectory}`)
 console.log(`Resolved Path: ${resolvedPath}`)
@@ -50,8 +50,8 @@ validatePath(resolvedPath)
     .catch(err => console.error(err)) */
 
 // validación de directorio o archivo md
-const validateDirOrMD = (myPath) =>{    
-   const extensionFile = path.extname(myPath);
+const validateDirOrMD = (myPath) => {
+    const extensionFile = path.extname(myPath);
     return new Promise((resolve, reject) => {
         if (extensionFile == '') {
             resolve('dir')
@@ -63,11 +63,22 @@ const validateDirOrMD = (myPath) =>{
     })
 };
 
+// lectura de directorio
+const readDir = path => fs.readdirSync(path);
+//const dirArray = readDir();
+
+// extraer archivos md del directorio
+
+
+// lectura de archivo md
+// extraer links dentro de archivo md
+
 module.exports = {
     mdLinks,
     validatePath,
     validateOption,
     validateAbsolutePath,
     resolvePath,
-    validateDirOrMD
+    validateDirOrMD,
+    readDir
 }
