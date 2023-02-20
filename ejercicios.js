@@ -25,7 +25,7 @@ const readFileFn = (file) => {
 //readFileFn(fileName);
 
 //-----------Leyendo extensión de archivo---------------
-const ext = path.extname(fileName)
+const ext = path.extname('./files-to-read/achicando.md')
 //console.log(ext)
 
 //---------Leyendo archivos desde un directorio---------
@@ -34,7 +34,7 @@ function readDirFn(path) {
     console.log(file)
   })
 };
-//readDirFn('../DEV002-data-lovers');
+// readDirFn('../DEV002-data-lovers');
 
 //-----------Uniendo dos fragmentos de ruta------------
 const joinedPath = path.join('./files-to-read', 'check.txt')

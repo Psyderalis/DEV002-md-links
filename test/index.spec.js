@@ -4,10 +4,11 @@ const {
   validateOption,
   validateAbsolutePath,
   resolvePath,
-  validateDirOrMD,
+ // validateDirOrMD,
   readDir,
   readDirRecursive,
-  getMDfiles
+  getMDfiles,
+  readMdFile
 } = require('../src/index.js');
 
 const validMDPath = './files-to-read/achicando.md';
@@ -147,8 +148,25 @@ describe('Test to readDirRecursive()', () => {
   });
 });
 
-// test para lectura de archivo md
-// test para extraer links dentro de archivo md
+// test para lectura de archivo md y extraccion de links
+describe('Test to readMdFile()', () => {
+  test('Throws error for a file path that is not md', () => {
+    return expect( ()=>readMdFile('./files-to-read/OAs.txt')).toThrow()
+  });
+  test('Returns the path if it is an md file path', () => {
+    return expect(readMdFile(validMDPath)).toEqual(validMDPath)
+  });
+  test('Returns an array of md files for a directory path', () => {
+    return expect(readMdFile(validDirPath)).toEqual([
+      'achicando.md',
+      'criterios.md',
+      'entreg-hackeredit.md',
+      'indice-preambulo.md',
+      'tips.md',
+      'resumen.md',
+    ])
+  });
+});
 
 //------------------------------------
 /* describe('mdLinks', () => {

@@ -109,12 +109,15 @@ const readDirRecursive = (myPath) => { //entra ruta
 
 //const mdFiles = readDirRecursive("/path/to/directory");
 
-// lectura de archivo md
+// lectura de archivo md y extraccion de links
+const readMdFile = files => {
 //entra array de md files
 //recorre el array y por cada uno:
     //busca links
     // si no hay links tira error
     // si hay links retorna array de links
+}
+
 
 // extraer links dentro de archivo md
 
@@ -128,8 +131,9 @@ module.exports = {
     validateOption,
     validateAbsolutePath,
     resolvePath,
-    validateDirOrMD,
+    // validateDirOrMD,
     readDir,
     readDirRecursive,
-    getMDfiles
+    getMDfiles,
+    readMdFile
 }
