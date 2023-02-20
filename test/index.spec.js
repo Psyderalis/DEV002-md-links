@@ -1,11 +1,13 @@
 const {
-  mdLinks,
+ // mdLinks,
   validatePath,
   validateOption,
   validateAbsolutePath,
   resolvePath,
   validateDirOrMD,
-  readDir
+  readDir,
+  readDirRecursive,
+  getMDfiles
 } = require('../src/index.js');
 
 const validMDPath = './files-to-read/achicando.md';
@@ -20,13 +22,22 @@ const validOption3 = 'validate';
 const invalidOption1 = 'option';
 const invalidOption2 = { validate: 33 };
 const invalidFile = 'check.txt';
+const subDirsAndFiles = [
+  'achicando.md',
+  'criterios.md',
+  'entreg-hackeredit.md',
+  'indice-preambulo.md',
+  'OAs.txt',
+  'subdirectory',
+  'tips.md'
+]
 
 //test para mdLinks
-describe('Test to mdLinks()', () => {
+/* describe('Test to mdLinks()', () => {
   it('mdLinks debería ser una función', () => {
     expect(typeof mdLinks).toBe('function')
   })
-});
+}); */
 
 // test para validacion de path
 describe('Test to validatePath()', () => {
@@ -36,7 +47,7 @@ describe('Test to validatePath()', () => {
   test('Returns true for a valid path', () => {
     return expect(validatePath(validDirPath)).resolves.toBe(true)
   });
-  test('Throw error for an invalid path', () => {
+  test('Throws error for an invalid path', () => {
     return expect(validatePath(invalidPath)).rejects.toThrow()
   });
 });
@@ -52,10 +63,10 @@ describe('Test to validateOption()', () => {
   test('Returns true for a valid option', () => {
     return expect(validateOption(validOption3)).resolves.toBe(true)
   });
-  test('Throw error for an invalid option', () => {
+  test('Throws error for an invalid option', () => {
     return expect(validateOption(invalidOption1)).rejects.toThrow()
   });
-  test('Throw error for an invalid option', () => {
+  test('Throws error for an invalid option', () => {
     return expect(validateOption(invalidOption2)).rejects.toThrow()
   });
 });
@@ -77,7 +88,7 @@ describe('Test to resolvePath()', () => {
   });
 });
 
-// test para validación de directorio o archivo md
+/* // test para validación de directorio o archivo md
 describe('Test to validateDirOrMD()', () => {
   test('Returns \'dir\' for a dir path', () => {
     return expect(validateDirOrMD(myCurrentWorkingDirectory)).resolves.toBe('dir')
@@ -85,18 +96,57 @@ describe('Test to validateDirOrMD()', () => {
   test('Returns \'md file\' for a md file path', () => {
     return expect(validateDirOrMD(validMDPath)).resolves.toBe('md file')
   });
-  test('Throw error for an invalid file', () => {
+  test('Throws error for an invalid file', () => {
     return expect(validateDirOrMD(invalidFile)).rejects.toThrow()
   });
-});
+}); */
+
+// test para validacion de directorio
+// ---------------------------
+
+// test para validacion de archivo md
+// ---------------------------
 
 // test para lectura de directorio
 describe('Test to readDir()', () => {
   test('Returns an array of files and folders', () => {
-    return expect(readDir(validDirPath)).toEqual(["achicando.md","check.txt","consideraciones.txt","criterios.md","entreg-hackeredit.md","indice-preambulo.md","OAs.txt","resumen.md","tips.md",])
+    return expect(readDir(validDirPath)).toEqual(subDirsAndFiles)
   });
 });
+
 // test para extraer archivos md del directorio
+describe('Test to getMDfiles()', () => {
+  test('Returns an array of md files', () => {
+    return expect(getMDfiles(subDirsAndFiles)).toEqual([
+      'achicando.md',
+      'criterios.md',
+      'entreg-hackeredit.md',
+      'indice-preambulo.md',
+      'tips.md'
+    ])
+  });
+});
+
+// test para lectura recursiva de dir y extraccion de md
+describe('Test to readDirRecursive()', () => {
+  test('Throws error for a file path that is not md', () => {
+    return expect( ()=>readDirRecursive('./files-to-read/OAs.txt')).toThrow()
+  });
+  test('Returns the path if it is an md file path', () => {
+    return expect(readDirRecursive(validMDPath)).toEqual(validMDPath)
+  });
+  test('Returns an array of md files for a directory path', () => {
+    return expect(readDirRecursive(validDirPath)).toEqual([
+      'achicando.md',
+      'criterios.md',
+      'entreg-hackeredit.md',
+      'indice-preambulo.md',
+      'tips.md',
+      'resumen.md',
+    ])
+  });
+});
+
 // test para lectura de archivo md
 // test para extraer links dentro de archivo md
 

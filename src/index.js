@@ -1,10 +1,12 @@
 const fs = require('fs');
 const path = require('path');
+const glob = require('glob')
+//console.log(glob)
 
 
-const mdLinks = (path, option) => {
+/* const mdLinks = (path, option) => {
     console.log('fix me')
-};
+}; */
 
 // Validación de ruta: Check if the file exists in the current directory and is readeble.
 const validatePath = (myPath) => {
@@ -50,7 +52,7 @@ validatePath(resolvedPath)
     .catch(err => console.error(err)) */
 
 // validación de directorio o archivo md
-const validateDirOrMD = (myPath) => {
+/* const validateDirOrMD = (myPath) => {
     const extensionFile = path.extname(myPath);
     return new Promise((resolve, reject) => {
         if (extensionFile == '') {
@@ -61,24 +63,73 @@ const validateDirOrMD = (myPath) => {
             reject(new Error('Invalid type of file'))
         }
     })
+}; */
+
+// validacion de directorio
+const isDir = myPath => {
+    return fs.statSync(myPath).isDirectory()
+}
+
+// validacion de archivo md
+const isMdFile = file => path.extname(file) === ".md"; //retorna boolean
+
+// lectura de directorio 
+const readDir = path => fs.readdirSync(path);
+/* const subDirsAndFiles = readDir('./files-to-read');
+console.log(subDirsAndFiles) */
+
+// extraer archivos md
+const getMDfiles = arr => arr.filter((file) => isMdFile(file));
+
+// extraer subdirectorios
+const getSubDirs = (arr, dirPath) => arr.filter((file) => {
+    const subDirPath = path.join(dirPath, file); // se obtiene ruta completa del subdir
+    return isDir(subDirPath); // .statSync, devuelve objeto de estadisticas del archivo, .isDirectory es un metodo dentro del objeto que devuelve un booleano. Si da true, se agraga a subDirs, else se omite.
+});
+
+// lectura recursiva: revisa directorio y retorna array con archivos md, 
+const readDirRecursive = (myPath) => { //entra ruta 
+    // caso base: la ruta corresponde a un archivo
+    if (!isDir(myPath) && !isMdFile(myPath)) {
+        throw new Error('Invalid type of file'); // lanzar una excepción
+    }
+    if (!isDir(myPath) && isMdFile(myPath)) {
+        return myPath
+    } else {
+        const files = readDir(myPath); // se guardan archivos y subdirs en const files 
+        let mdFiles = getMDfiles(files) // se guardan archivos md en variable mdFiles
+        const subDirs = getSubDirs(files, myPath);
+        subDirs.forEach((subdir) => { // la fn se llama a si misma para leer subdirs
+            const subFiles = readDirRecursive(path.join(myPath, subdir)); // se guardan los archivos en subFiles
+            mdFiles = [...mdFiles, ...subFiles]; // se agregan a let mdFiles, concatenando ambos arrays (operador spread '...')
+        });
+        return mdFiles; //devuelve archivos md
+    }
 };
 
-// lectura de directorio
-const readDir = path => fs.readdirSync(path);
-//const dirArray = readDir();
-
-// extraer archivos md del directorio
-
+//const mdFiles = readDirRecursive("/path/to/directory");
 
 // lectura de archivo md
+//entra array de md files
+//recorre el array y por cada uno:
+    //busca links
+    // si no hay links tira error
+    // si hay links retorna array de links
+
 // extraer links dentro de archivo md
 
+// funcion que crea objeto sin validacion de links
+
+// funcion que crea objeto con validacion de links
+
 module.exports = {
-    mdLinks,
+    // mdLinks,
     validatePath,
     validateOption,
     validateAbsolutePath,
     resolvePath,
     validateDirOrMD,
-    readDir
+    readDir,
+    readDirRecursive,
+    getMDfiles
 }
