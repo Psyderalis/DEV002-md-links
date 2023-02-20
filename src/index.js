@@ -1,12 +1,8 @@
 const fs = require('fs');
 const path = require('path');
-const glob = require('glob')
-//console.log(glob)
+const markdownIt = require('markdown-it')();
 
-
-/* const mdLinks = (path, option) => {
-    console.log('fix me')
-}; */
+//const glob = require('glob')
 
 // Validación de ruta: Check if the file exists in the current directory and is readeble.
 const validatePath = (myPath) => {
@@ -94,7 +90,7 @@ const readDirRecursive = (myPath) => { //entra ruta
         throw new Error('Invalid type of file'); // lanzar una excepción
     }
     if (!isDir(myPath) && isMdFile(myPath)) {
-        return myPath
+        return [myPath]
     } else {
         const files = readDir(myPath); // se guardan archivos y subdirs en const files 
         let mdFiles = getMDfiles(files) // se guardan archivos md en variable mdFiles
@@ -109,14 +105,42 @@ const readDirRecursive = (myPath) => { //entra ruta
 
 //const mdFiles = readDirRecursive("/path/to/directory");
 
+const readMdFile = (file) => {
+    return new Promise((resolve, reject) => {
+        fs.readFile(file, 'utf-8', (error, data) => {
+            if (error) {
+                reject(error)
+            } else {
+                const links = [];
+                const tokens = markdownIt.parse(data, {}) //array de tokens
+                tokens.forEach(token => {
+                    // console.log(token)
+                    if (token.type === 'link_open') {
+                        const link = token.attrGet('href') // Obtenemos el valor del atributo href (dentro del array de atributos ('attrs'))
+                        links.push(link); // Lo agregamos al array de links
+                    }
+                });
+                resolve (links)
+            }
+        });
+    });
+};
+
+readMdFile('./files-to-read/achicando.md')
+  .then(links => {
+    console.log(links);
+  })
+  .catch(error => {
+    console.error(error);
+  });
+
+
 // lectura de archivo md y extraccion de links
-const readMdFile = files => {
-//entra array de md files
+
 //recorre el array y por cada uno:
-    //busca links
-    // si no hay links tira error
-    // si hay links retorna array de links
-}
+//busca links
+// si no hay links tira error
+// si hay links retorna array de links
 
 
 // extraer links dentro de archivo md
@@ -124,6 +148,12 @@ const readMdFile = files => {
 // funcion que crea objeto sin validacion de links
 
 // funcion que crea objeto con validacion de links
+
+//------------------------------------------------------------
+/* const mdLinks = (path, option) => {
+    console.log('fix me')
+}; */
+//-------------------------------------------------------------
 
 module.exports = {
     // mdLinks,

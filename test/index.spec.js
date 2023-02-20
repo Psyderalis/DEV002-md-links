@@ -134,7 +134,7 @@ describe('Test to readDirRecursive()', () => {
     return expect( ()=>readDirRecursive('./files-to-read/OAs.txt')).toThrow()
   });
   test('Returns the path if it is an md file path', () => {
-    return expect(readDirRecursive(validMDPath)).toEqual(validMDPath)
+    return expect(readDirRecursive(validMDPath)).toEqual([validMDPath])
   });
   test('Returns an array of md files for a directory path', () => {
     return expect(readDirRecursive(validDirPath)).toEqual([
