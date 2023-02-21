@@ -66,9 +66,7 @@ validatePath(resolvedPath)
 }; */
 
 // validacion de directorio
-const isDir = myPath => {
-    return fs.statSync(myPath).isDirectory()
-}
+const isDir = myPath => fs.statSync(myPath).isDirectory();
 
 // validacion de archivo md
 const isMdFile = file => path.extname(file) === ".md"; //retorna boolean
@@ -79,7 +77,7 @@ const readDir = path => fs.readdirSync(path);
 console.log(subDirsAndFiles) */
 
 // extraer archivos md
-const getMDfiles = arr => arr.filter((file) => isMdFile(file));
+const getMdFiles = arr => arr.filter((file) => isMdFile(file));
 
 // extraer subdirectorios
 const getSubDirs = (arr, dirPath) => arr.filter((file) => {
@@ -94,10 +92,10 @@ const readDirRecursive = (myPath) => { //entra ruta
         throw new Error('Invalid type of file'); // lanzar una excepción
     }
     if (!isDir(myPath) && isMdFile(myPath)) {
-        return myPath
+        return [myPath]
     } else {
         const files = readDir(myPath); // se guardan archivos y subdirs en const files 
-        let mdFiles = getMDfiles(files) // se guardan archivos md en variable mdFiles
+        let mdFiles = getMdFiles(files) // se guardan archivos md en variable mdFiles
         const subDirs = getSubDirs(files, myPath);
         subDirs.forEach((subdir) => { // la fn se llama a si misma para leer subdirs
             const subFiles = readDirRecursive(path.join(myPath, subdir)); // se guardan los archivos en subFiles
@@ -134,6 +132,6 @@ module.exports = {
     // validateDirOrMD,
     readDir,
     readDirRecursive,
-    getMDfiles,
+    getMdFiles,
     readMdFile
 }

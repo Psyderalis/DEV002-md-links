@@ -7,7 +7,7 @@ const {
  // validateDirOrMD,
   readDir,
   readDirRecursive,
-  getMDfiles,
+  getMdFiles,
   readMdFile
 } = require('../src/index.js');
 
@@ -116,9 +116,9 @@ describe('Test to readDir()', () => {
 });
 
 // test para extraer archivos md del directorio
-describe('Test to getMDfiles()', () => {
+describe('Test to getMdFiles()', () => {
   test('Returns an array of md files', () => {
-    return expect(getMDfiles(subDirsAndFiles)).toEqual([
+    return expect(getMdFiles(subDirsAndFiles)).toEqual([
       'achicando.md',
       'criterios.md',
       'entreg-hackeredit.md',
