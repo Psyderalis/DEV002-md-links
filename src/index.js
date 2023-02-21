@@ -62,9 +62,8 @@ validatePath(resolvedPath)
 }; */
 
 // validacion de directorio
-const isDir = myPath => {
-    return fs.statSync(myPath).isDirectory()
-}
+const isDir = myPath => fs.statSync(myPath).isDirectory()
+
 
 // validacion de archivo md
 const isMdFile = file => path.extname(file) === ".md"; //retorna boolean
@@ -105,34 +104,44 @@ const readDirRecursive = (myPath) => { //entra ruta
 
 //const mdFiles = readDirRecursive("/path/to/directory");
 
-const readMdFile = (file) => {
+const parseMdFile = (file) => {
     return new Promise((resolve, reject) => {
         fs.readFile(file, 'utf-8', (error, data) => {
             if (error) {
                 reject(error)
             } else {
-                const links = [];
-                const tokens = markdownIt.parse(data, {}) //array de tokens
-                tokens.forEach(token => {
-                    // console.log(token)
-                    if (token.type === 'link_open') {
-                        const link = token.attrGet('href') // Obtenemos el valor del atributo href (dentro del array de atributos ('attrs'))
-                        links.push(link); // Lo agregamos al array de links
-                    }
-                });
-                resolve (links)
+                // console.log(data)
+                const tokens = markdownIt.parse(data, {})
+                resolve(tokens) //resuelve array de tokens
             }
         });
     });
 };
 
-readMdFile('./files-to-read/achicando.md')
-  .then(links => {
-    console.log(links);
-  })
-  .catch(error => {
-    console.error(error);
-  });
+const getUrlLinks = myTokens => {
+    // console.log(myTokens)
+    const urls = []
+    myTokens.forEach(token => {
+        const content = token.content;
+        const urlRegEx = /\((https?:\/\/[^\s]+)(?: "(.+)")?\)|(https?:\/\/[^\s]+)/ig;
+        const matches = content.match(urlRegEx)
+        if(matches) {
+            urls.push(...matches)
+        }
+    });
+    return urls;
+
+};
+
+parseMdFile('./files-to-read/indice-preambulo.md')
+    .then(tokens => {
+       //  console.log(tokens);
+        console.log(getUrlLinks(tokens))
+    })
+    .catch(error => {
+        console.error(error);
+    });
+
 
 
 // lectura de archivo md y extraccion de links
@@ -165,5 +174,4 @@ module.exports = {
     readDir,
     readDirRecursive,
     getMDfiles,
-    readMdFile
 }
