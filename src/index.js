@@ -107,15 +107,38 @@ const readDirRecursive = (myPath) => { //entra ruta
 
 //const mdFiles = readDirRecursive("/path/to/directory");
 
-// lectura de archivo md y extraccion de links
-const readMdFile = files => {
-//entra array de md files
-//recorre el array y por cada uno:
-    //busca links
-    // si no hay links tira error
-    // si hay links retorna array de links
-}
 
+// obteniendo links url de data
+const getUrlLinks = data => {
+    const urls = []
+    const urlRegEx = /\((https?:\/\/[^\s]+)(?: "(.+)")?\)|(https?:\/\/[^\s]+)/ig;
+    const matches = data.match(urlRegEx)
+    if (matches) {
+        urls.push(...matches)
+    };
+return urls;
+};
+
+// leyendo archivo md y extrayendo links
+const readMdFile = file => {
+    return new Promise((res, rej) => {
+        fs.readFile(file, 'utf-8', (error, data) => {
+            if (error) {
+                rej(error)
+            } else {
+                res(getUrlLinks(data))
+            }
+        })
+    })
+};
+
+readMdFile('./files-to-read/achicando.md')
+    .then(file => {
+        console.log(file)
+    })
+    .catch(error => {
+        console.error(error);
+    });
 
 // extraer links dentro de archivo md
 

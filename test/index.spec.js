@@ -5,10 +5,10 @@ const {
   validateAbsolutePath,
   resolvePath,
  // validateDirOrMD,
-  readDir,
+  // readDir,
   readDirRecursive,
-  getMdFiles,
-  readMdFile
+  // getMdFiles,
+ readMdFile
 } = require('../src/index.js');
 
 const validMDPath = './files-to-read/achicando.md';
@@ -109,14 +109,14 @@ describe('Test to validateDirOrMD()', () => {
 // ---------------------------
 
 // test para lectura de directorio
-describe('Test to readDir()', () => {
+/* describe('Test to readDir()', () => {
   test('Returns an array of files and folders', () => {
     return expect(readDir(validDirPath)).toEqual(subDirsAndFiles)
   });
-});
+}); */
 
 // test para extraer archivos md del directorio
-describe('Test to getMdFiles()', () => {
+/* describe('Test to getMdFiles()', () => {
   test('Returns an array of md files', () => {
     return expect(getMdFiles(subDirsAndFiles)).toEqual([
       'achicando.md',
@@ -126,15 +126,15 @@ describe('Test to getMdFiles()', () => {
       'tips.md'
     ])
   });
-});
+}); */
 
 // test para lectura recursiva de dir y extraccion de md
 describe('Test to readDirRecursive()', () => {
   test('Throws error for a file path that is not md', () => {
     return expect( ()=>readDirRecursive('./files-to-read/OAs.txt')).toThrow()
   });
-  test('Returns the path if it is an md file path', () => {
-    return expect(readDirRecursive(validMDPath)).toEqual(validMDPath)
+  test('Returns an array with an md file path for a md file path', () => {
+    return expect(readDirRecursive(validMDPath)).toEqual([validMDPath])
   });
   test('Returns an array of md files for a directory path', () => {
     return expect(readDirRecursive(validDirPath)).toEqual([
@@ -150,20 +150,12 @@ describe('Test to readDirRecursive()', () => {
 
 // test para lectura de archivo md y extraccion de links
 describe('Test to readMdFile()', () => {
-  test('Throws error for a file path that is not md', () => {
-    return expect( ()=>readMdFile('./files-to-read/OAs.txt')).toThrow()
+  test('Throws error for an invalid path', () => {
+    return expect( ()=>readMdFile(invalidPath) ).toThrow()
   });
-  test('Returns the path if it is an md file path', () => {
-    return expect(readMdFile(validMDPath)).toEqual(validMDPath)
-  });
-  test('Returns an array of md files for a directory path', () => {
-    return expect(readMdFile(validDirPath)).toEqual([
-      'achicando.md',
-      'criterios.md',
-      'entreg-hackeredit.md',
-      'indice-preambulo.md',
-      'tips.md',
-      'resumen.md',
+  test('Returns an array of urls for a file path', () => {
+    return expect(readMdFile(validMDPath)).toEqual([
+      [ '(https://www.youtube.com/watch?v=Lub5qOmY4JQ)' ]
     ])
   });
 });
