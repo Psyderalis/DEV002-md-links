@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
-const glob = require('glob')
+const glob = require('glob');
+const { url } = require('inspector');
 //console.log(glob)
 
 
@@ -36,10 +37,10 @@ const validateOption = (option) => {
 const validateAbsolutePath = myPath => path.isAbsolute(myPath);
 
 // resolver ruta relativa a absoluta
-const myCurrentWorkingDir = process.cwd();
 // const relativePath = './src/index.js';
-const resolvePath = (currentWorkingDir, relativePath) => {
-    return path.resolve(currentWorkingDir, relativePath);
+const resolvePath = (relativePath) => {
+    const myCurrentWorkingDir = process.cwd();
+    return path.resolve(myCurrentWorkingDir, relativePath);
 }
 //const resolvedPath = resolvePath();
 
@@ -107,7 +108,6 @@ const readDirRecursive = (myPath) => { //entra ruta
 
 //const mdFiles = readDirRecursive("/path/to/directory");
 
-
 // obteniendo links url de data
 const getUrlLinks = data => {
     const urls = []
@@ -115,9 +115,32 @@ const getUrlLinks = data => {
     const matches = data.match(urlRegEx)
     if (matches) {
         urls.push(...matches)
+        return urls;
+    } else {
+        return 'No links found';
     };
-return urls;
 };
+
+// funcion que crea objeto sin validacion de links
+const validateFalseOp = (myPath, myLinks) => {
+    const links = [];
+    myLinks.forEach(link => {
+        const urlRegEx = /\((https?:\/\/[^\s)]+)\)/i;
+        const href = link.match(urlRegEx);
+        const textRegEx = />(.*?)<\/a>/i;
+        const textMatch = link.match(textRegEx);
+        const text = textMatch ? textMatch[1] : '';
+        const linkObj = {
+            href: href[1],
+            text,
+            file: myPath
+        }
+        links.push(linkObj)
+    })
+    return links
+};
+
+console.log(validateFalseOp('ruta', ['(https://es.wikipedia.org/wiki/Markdown)']))
 
 // leyendo archivo md y extrayendo links
 const readMdFile = file => {
@@ -132,17 +155,16 @@ const readMdFile = file => {
     })
 };
 
-readMdFile('./files-to-read/achicando.md')
+/* readMdFile()
     .then(file => {
         console.log(file)
     })
     .catch(error => {
         console.error(error);
     });
+ */
 
-// extraer links dentro de archivo md
 
-// funcion que crea objeto sin validacion de links
 
 // funcion que crea objeto con validacion de links
 
