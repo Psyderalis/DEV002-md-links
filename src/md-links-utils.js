@@ -34,7 +34,11 @@ const isDir = myPath => fs.statSync(myPath).isDirectory();
 const isMdFile = file => path.extname(file) === ".md"; //retorna boolean
 
 // lectura de directorio 
-const readDir = path => fs.readdirSync(path);
+const readDir = myPath => { 
+    const files = fs.readdirSync(myPath);
+    const filesPaths = files.map(file => path.join(myPath, file));
+    return filesPaths
+};
 /* const subDirsAndFiles = readDir('./files-to-read');
 console.log(subDirsAndFiles) */
 
@@ -42,10 +46,8 @@ console.log(subDirsAndFiles) */
 const getMdFiles = arr => arr.filter((file) => isMdFile(file));
 
 // extraer subdirectorios
-const getSubDirs = (arr, dirPath) => arr.filter((file) => {
-    const subDirPath = path.join(dirPath, file); // se obtiene ruta completa del subdir
-    return isDir(subDirPath); // .statSync, devuelve objeto de estadisticas del archivo, .isDirectory es un metodo dentro del objeto que devuelve un booleano. Si da true, se agraga a subDirs, else se omite.
-});
+const getSubDirs = (arr) => arr.filter((file) =>  isDir(file)); // .statSync, devuelve objeto de estadisticas del archivo, .isDirectory es un metodo dentro del objeto que devuelve un booleano. Si da true, se agraga a subDirs, else se omite.
+
 //------------------------------------------------------------------
 
 // lectura recursiva: revisa directorio y retorna array con archivos md, 
@@ -61,18 +63,19 @@ const readDirRecursive = (myPath) => { //entra ruta
         let mdFiles = getMdFiles(files) // se guardan archivos md en variable mdFiles
         const subDirs = getSubDirs(files, myPath);
         subDirs.forEach((subdir) => { // la fn se llama a si misma para leer subdirs
-            const subFiles = readDirRecursive(path.join(myPath, subdir)); // se guardan los archivos en subFiles
+            const subFiles = readDirRecursive(subdir); // se guardan los archivos en subFiles
             mdFiles = [...mdFiles, ...subFiles]; // se agregan a let mdFiles, concatenando ambos arrays (operador spread '...')
         });
-        return mdFiles; //devuelve archivos md
-    }
+        return mdFiles; //devuelve array de archivos md
+    } 
 };
-
+// console.log(readDirRecursive('./files-to-read'))
 
 // obteniendo links url de data
 const getUrlLinks = data => {
     const urls = []
-    const urlRegEx = /\((https?:\/\/[^\s]+)(?: "(.+)")?\)|(https?:\/\/[^\s]+)/ig;
+    // const urlRegEx = /\((https?:\/\/[^\s]+)(?: "(.+)")?\)|(https?:\/\/[^\s]+)/ig;
+    const urlRegEx = /\[([^\[\]]*?)\]\((https?:\/\/[^\s$.?#].[^\s]*)\)/gi; //regex andre
     const matches = data.match(urlRegEx)
     if (matches) {
         urls.push(...matches)
@@ -81,27 +84,6 @@ const getUrlLinks = data => {
         return 'No links found';
     };
 };
-
-// funcion que crea objeto sin validacion de links
-const validateFalseOp = (myPath, myLinks) => {
-    const links = [];
-    myLinks.forEach(link => {
-        const urlRegEx = /\((https?:\/\/[^\s)]+)\)/i;
-        const href = link.match(urlRegEx);
-        const textRegEx = />(.*?)<\/a>/i;
-        const textMatch = link.match(textRegEx);
-        const text = textMatch ? textMatch[1] : '';
-        const linkObj = {
-            href: href[1],
-            text,
-            file: myPath
-        }
-        links.push(linkObj)
-    })
-    return links
-};
-
-// console.log(validateFalseOp('ruta', ['(https://es.wikipedia.org/wiki/Markdown)']))
 
 // leyendo archivo md y extrayendo links
 const readMdFile = file => {
@@ -116,20 +98,44 @@ const readMdFile = file => {
     })
 };
 
-/* readMdFile()
-    .then(file => {
-        console.log(file)
+/* readMdFile(ruta)
+    .then(links => {
+        // console.log(links);
     })
     .catch(error => {
         console.error(error);
-    });
- */
+    }); */
 
+// analizar links y retornar objeto
+const analiseUrlLinks = (links, path, option) => {
+    let analisedLinks = [];
+    links.forEach(link => {
+        let linkObject = new Object();
+        const hrefRegEx = /\(([^)]+)\)/g;
+        const textRegEx = /\[([^\[\]]*?)\]/g;
+        const href = link.match(hrefRegEx).toString().replace(/\(|\)/g, '');
+        const text = link.match(textRegEx).toString().replace(/[\[\]]/g, '');
+        linkObject.href = href;
+        linkObject.text = text;
+        linkObject.file = path;
+        if (option.validate) {
+            linkObject.status = 'holi';
+            linkObject.ok = 'holi2';
+        }
+        analisedLinks.push(linkObject);
+    })
+    return analisedLinks
+};
+/* const linksarray = [
+    '[Markdown](https://es.wikipedia.org/wiki/Markdown)',
+    '[Node.js](https://nodejs.org/)',
+    '[md-links](https://user-images.githubusercontent.com/110297/42118443-b7a5f1f0-7bc8-11e8-96ad-9cc5593715a6.jpg)'
+];
+const option = { validate : true}
+const ruta = './files-to-read/indice-preambulo.md';
 
-
-// funcion que crea objeto con validacion de links
-
-
+console.log(analiseUrlLinks(linksarray, ruta, option
+)); */
 
 module.exports = {
     isValidPath,
@@ -138,4 +144,6 @@ module.exports = {
     currentWorkingDir,
     resolvePath,
     readDirRecursive,
+    readMdFile,
+    analiseUrlLinks
 }

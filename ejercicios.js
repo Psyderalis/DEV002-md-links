@@ -141,4 +141,3 @@ myPromise
 //---------Exportando----------------------------------
 module.exports = { readFileFn }
 
-

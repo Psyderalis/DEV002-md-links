@@ -5,10 +5,13 @@ const {
     currentWorkingDir,
     resolvePath,
     readDirRecursive,
+    readMdFile,
+    analiseUrlLinks,
+
 } = require('./md-links-utils.js');
 
 const validDirPath = './files-to-read';
-const validateFalseOp = { validate : false }
+const validateFalseOp = { validate: false }
 
 const mdLinks = (path, option) => {
     isValidPath(path);
@@ -18,7 +21,18 @@ const mdLinks = (path, option) => {
         path = resolvedPath;
     };
     const mdFiles = readDirRecursive(path);
-    return console.log(mdFiles) //hasta ahora solo retorna array de archivos md
+    mdFiles.forEach(file => {
+        readMdFile(file)
+            .then(links => {
+                analiseUrlLinks(links, file, option)
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    });
+    return new Promise ((res, rej) => {
+        
+    })
 };
 
 mdLinks(validDirPath, validateFalseOp)
