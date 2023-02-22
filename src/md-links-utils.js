@@ -1,71 +1,32 @@
 const fs = require('fs');
 const path = require('path');
-const glob = require('glob');
-const { url } = require('inspector');
-//console.log(glob)
-
-
-/* const mdLinks = (path, option) => {
-    console.log('fix me')
-}; */
 
 // Validación de ruta: Check if the file exists in the current directory and is readeble.
-const validatePath = (myPath) => {
-    return new Promise((resolve, reject) => {
-        fs.access(myPath, fs.constants.F_OK | fs.constants.R_OK, (err) => {
-            if (!err) {
-                resolve(true)
-            } else {
-                reject(new Error('Invalid or unreadeble path'))
-            }
-        })
-    })
+const isValidPath = (myPath) => {
+    if (fs.existsSync(myPath)) {
+        return true;
+    } else {
+        throw new Error('Invalid or unreadable path');
+    }
 };
 
-// validación de option | 'validate', {validate : true}, {validate : false}
-const validateOption = (option) => {
-    return new Promise((resolve, reject) => {
-        if (option === 'validate' || (typeof option === 'object' && (option.validate === true || option.validate === false))) {
-            resolve(true)
-        } else {
-            reject(new Error('Invalid option'))
-        }
-    })
+// validación de option 
+const isValidOption = (option) => {
+    if (typeof option === 'object' && (option.validate === true || option.validate === false)) {
+        return true
+    } else {
+        throw new Error('Invalid option');
+    }
 };
 
 // validación de path absoluta o relativa
-const validateAbsolutePath = myPath => path.isAbsolute(myPath);
+const isAbsolutePath = myPath => path.isAbsolute(myPath);
 
 // resolver ruta relativa a absoluta
-// const relativePath = './src/index.js';
-const resolvePath = (relativePath) => {
-    const myCurrentWorkingDir = process.cwd();
-    return path.resolve(myCurrentWorkingDir, relativePath);
-}
-//const resolvedPath = resolvePath();
+const currentWorkingDir = process.cwd();
+const resolvePath = (myCurrentWorkingDir, relativePath) => path.resolve(myCurrentWorkingDir, relativePath);
 
-/* resolvePath(myCurrentWorkingDirectory, relativePath);
-console.log(`Current directory: ${currentWorkingDirectory}`)
-console.log(`Resolved Path: ${resolvedPath}`)
-
-validatePath(resolvedPath)
-    .then(res => console.log(res))
-    .catch(err => console.error(err)) */
-
-// validación de directorio o archivo md
-/* const validateDirOrMD = (myPath) => {
-    const extensionFile = path.extname(myPath);
-    return new Promise((resolve, reject) => {
-        if (extensionFile == '') {
-            resolve('dir')
-        } if (extensionFile == '.md') {
-            resolve('md file')
-        } else {
-            reject(new Error('Invalid type of file'))
-        }
-    })
-}; */
-
+//-------------Bloque de funciones para lectura recursiva de directorio----------
 // validacion de directorio
 const isDir = myPath => fs.statSync(myPath).isDirectory();
 
@@ -85,6 +46,7 @@ const getSubDirs = (arr, dirPath) => arr.filter((file) => {
     const subDirPath = path.join(dirPath, file); // se obtiene ruta completa del subdir
     return isDir(subDirPath); // .statSync, devuelve objeto de estadisticas del archivo, .isDirectory es un metodo dentro del objeto que devuelve un booleano. Si da true, se agraga a subDirs, else se omite.
 });
+//------------------------------------------------------------------
 
 // lectura recursiva: revisa directorio y retorna array con archivos md, 
 const readDirRecursive = (myPath) => { //entra ruta 
@@ -106,7 +68,6 @@ const readDirRecursive = (myPath) => { //entra ruta
     }
 };
 
-//const mdFiles = readDirRecursive("/path/to/directory");
 
 // obteniendo links url de data
 const getUrlLinks = data => {
@@ -140,7 +101,7 @@ const validateFalseOp = (myPath, myLinks) => {
     return links
 };
 
-console.log(validateFalseOp('ruta', ['(https://es.wikipedia.org/wiki/Markdown)']))
+// console.log(validateFalseOp('ruta', ['(https://es.wikipedia.org/wiki/Markdown)']))
 
 // leyendo archivo md y extrayendo links
 const readMdFile = file => {
@@ -168,15 +129,13 @@ const readMdFile = file => {
 
 // funcion que crea objeto con validacion de links
 
+
+
 module.exports = {
-    // mdLinks,
-    validatePath,
-    validateOption,
-    validateAbsolutePath,
+    isValidPath,
+    isValidOption,
+    isAbsolutePath,
+    currentWorkingDir,
     resolvePath,
-    // validateDirOrMD,
-    readDir,
     readDirRecursive,
-    getMdFiles,
-    readMdFile
 }
