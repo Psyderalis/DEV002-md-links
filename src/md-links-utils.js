@@ -1,26 +1,14 @@
 const fs = require('fs');
 const path = require('path');
 
-// Validación de ruta: Check if the file exists in the current directory and is readeble.
-const isValidPath = (myPath) => {
-    if (fs.existsSync(myPath)) {
-        return true;
-    } else {
-        throw new Error('Invalid or unreadable path');
-    }
-};
+// Validación de ruta: Check if the file exists in the current directory and is readeble. Devuelve true or false
+const isValidPath = (myPath) => (fs.existsSync(myPath));
 
-// validación de option 
-const isValidOption = (option) => {
-    if (typeof option === 'object' && (option.validate === true || option.validate === false)) {
-        return true
-    } else {
-        throw new Error('Invalid option');
-    }
-};
+// validación de option. Devuelve true or false
+const isValidOption = (option) => (typeof option === 'object' && (option.validate === true || option.validate === false));
 
-// validación de path absoluta o relativa
-const isAbsolutePath = myPath => path.isAbsolute(myPath);
+// validación de path absoluta o relativa. Devuelve true or false
+const isAbsolutePath = (myPath) => path.isAbsolute(myPath);
 
 // resolver ruta relativa a absoluta
 const currentWorkingDir = process.cwd();
@@ -28,13 +16,13 @@ const resolvePath = (myCurrentWorkingDir, relativePath) => path.resolve(myCurren
 
 //-------------Bloque de funciones para lectura recursiva de directorio----------
 // validacion de directorio
-const isDir = myPath => fs.statSync(myPath).isDirectory();
+const isDir = (myPath) => fs.statSync(myPath).isDirectory();
 
 // validacion de archivo md
-const isMdFile = file => path.extname(file) === ".md"; //retorna boolean
+const isMdFile = (file) => path.extname(file) === ".md"; //retorna boolean
 
 // lectura de directorio 
-const readDir = myPath => { 
+const readDir = (myPath) => {
     const files = fs.readdirSync(myPath);
     const filesPaths = files.map(file => path.join(myPath, file));
     return filesPaths
@@ -43,10 +31,10 @@ const readDir = myPath => {
 console.log(subDirsAndFiles) */
 
 // extraer archivos md
-const getMdFiles = arr => arr.filter((file) => isMdFile(file));
+const getMdFiles = (arr) => arr.filter((file) => isMdFile(file));
 
 // extraer subdirectorios
-const getSubDirs = (arr) => arr.filter((file) =>  isDir(file)); // .statSync, devuelve objeto de estadisticas del archivo, .isDirectory es un metodo dentro del objeto que devuelve un booleano. Si da true, se agraga a subDirs, else se omite.
+const getSubDirs = (arr) => arr.filter((file) => isDir(file)); // .statSync, devuelve objeto de estadisticas del archivo, .isDirectory es un metodo dentro del objeto que devuelve un booleano. Si da true, se agraga a subDirs, else se omite.
 
 //------------------------------------------------------------------
 
@@ -66,73 +54,121 @@ const readDirRecursive = (myPath) => { //entra ruta
             const subFiles = readDirRecursive(subdir); // se guardan los archivos en subFiles
             mdFiles = [...mdFiles, ...subFiles]; // se agregan a let mdFiles, concatenando ambos arrays (operador spread '...')
         });
-        return mdFiles; //devuelve array de archivos md
-    } 
+        return mdFiles; //devuelve array de archivos md (rutas)
+    }
 };
 // console.log(readDirRecursive('./files-to-read'))
 
-// obteniendo links url de data
-const getUrlLinks = data => {
-    const urls = []
-    // const urlRegEx = /\((https?:\/\/[^\s]+)(?: "(.+)")?\)|(https?:\/\/[^\s]+)/ig;
-    const urlRegEx = /\[([^\[\]]*?)\]\((https?:\/\/[^\s$.?#].[^\s]*)\)/gi; //regex andre
-    const matches = data.match(urlRegEx)
-    if (matches) {
-        urls.push(...matches)
-        return urls;
-    } else {
-        return 'No links found';
-    };
-};
+const ruta = './files-to-read/indice-preambulo.md';
 
-// leyendo archivo md y extrayendo links
+// leyendo archivo md. Retorna objeto con path y data
 const readMdFile = file => {
     return new Promise((res, rej) => {
         fs.readFile(file, 'utf-8', (error, data) => {
             if (error) {
                 rej(error)
             } else {
-                res(getUrlLinks(data))
+                const fileDataObj = {
+                    file,
+                    data
+                }
+                res(fileDataObj)
             }
         })
     })
 };
 
 /* readMdFile(ruta)
-    .then(links => {
-        // console.log(links);
-    })
+    .then(console.log)
     .catch(error => {
         console.error(error);
     }); */
 
-// analizar links y retornar objeto
-const analiseUrlLinks = (links, path, option) => {
-    let analisedLinks = [];
-    links.forEach(link => {
-        let linkObject = new Object();
-        const hrefRegEx = /\(([^)]+)\)/g;
-        const textRegEx = /\[([^\[\]]*?)\]/g;
-        const href = link.match(hrefRegEx).toString().replace(/\(|\)/g, '');
-        const text = link.match(textRegEx).toString().replace(/[\[\]]/g, '');
-        linkObject.href = href;
-        linkObject.text = text;
-        linkObject.file = path;
-        if (option.validate) {
-            linkObject.status = 'holi';
-            linkObject.ok = 'holi2';
-        }
-        analisedLinks.push(linkObject);
-    })
-    return analisedLinks
+
+// obteninedo links de data. Retorna objeto con path y links
+const getUrlLinks = (dataObj) => {
+    const data = dataObj.data;
+    const urls = [];
+    const urlRegEx = /\[([^\[\]]*?)\]\((https?:\/\/[^\s$.?#].[^\s]*)\)/gi;
+    const matches = data.match(urlRegEx);
+    const urlsObj = {
+        file: dataObj.file,
+        links: urls
+    };
+    if (matches) {
+        urls.push(...matches)
+    };
+    return urlsObj
 };
-/* const linksarray = [
-    '[Markdown](https://es.wikipedia.org/wiki/Markdown)',
-    '[Node.js](https://nodejs.org/)',
-    '[md-links](https://user-images.githubusercontent.com/110297/42118443-b7a5f1f0-7bc8-11e8-96ad-9cc5593715a6.jpg)'
-];
-const option = { validate : true}
-const ruta = './files-to-read/indice-preambulo.md';
+
+/* const dataObFalso = {
+    file: 'rutafalsa',
+    data: 'nopasanaconloslinksss'
+}
+ console.log(getUrlLinks(dataObFalso))
+ */
+/* readMdFile(ruta)
+   .then((res) => {
+       console.log(getUrlLinks(res))
+   })
+   .catch(error => {
+       console.error(error);
+   }); */
+
+/* const objetoLinks = {
+    file: 'C:\\Users\\melan\\Desktop\\Proyectos Laboratoria\\DEV002-md-links\\files-to-read\\indice-preambulo.md',
+    links: [
+      '[Markdown](https://es.wikipedia.org/wiki/Markdown)',
+      '[Node.js](https://nodejs.org/)',
+      '[md-links](https://user-images.githubusercontent.com/110297/42118443-b7a5f1f0-7bc8-11e8-96ad-9cc5593715a6.jpg)'
+    ]
+  };
+ */
+// analizar links y retornar objeto (para { validate : false })
+const analiseUrls = (linksObj) => {
+    //entra un objeto con un path de archivo y un array de links
+    const links = linksObj.links;
+    const file = linksObj.file;
+    if (links === []) {
+        return `${file} : No links found`
+    } else {
+        //array con objetos de links analizados (1 link = 1 linkObject)
+        const analisedLinks = links.map((link) => {
+            const hrefRegEx = /\(([^)]+)\)/g;
+            const textRegEx = /\[([^\[\]]*?)\]/g;
+            const href = link.match(hrefRegEx).toString().replace(/\(|\)/g, '');
+            const text = link.match(textRegEx).toString().replace(/[\[\]]/g, '');
+            const linkObject = {
+                href,
+                text,
+                file
+            };
+            return linkObject
+        })
+        return analisedLinks
+    };
+};
+
+// console.log(analiseUrls(objetoLinks))
+
+// tomar links analizados y validar (para { validate : true })
+const validateUrls = (parsedLinks) => {
+    const validatedLinks = parsedLinks;
+    parsedLinks.forEach(object => {
+        object.status = 'holi';
+        object.ok = 'holi2';
+    })
+    return validatedLinks
+};
+
+//console.log(objetosimple)
+
+// console.log(validateUrls(objetosimplearray))
+
+
+
+/*const option = { validate : true}
+
 
 console.log(analiseUrlLinks(linksarray, ruta, option
 )); */
@@ -145,5 +181,6 @@ module.exports = {
     resolvePath,
     readDirRecursive,
     readMdFile,
-    analiseUrlLinks
+    getUrlLinks,
+    analiseUrls
 }
