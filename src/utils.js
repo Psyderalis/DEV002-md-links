@@ -88,7 +88,7 @@ const readMdFile = file => {
 // obteninedo links de data. Retorna objeto con path y links
 const getUrlLinks = (dataObj) => {
     const data = dataObj.data;
-    const urls = [];
+    let urls = [];
     const urlRegEx = /\[([^\[\]]*?)\]\((https?:\/\/[^\s$.?#].[^\s]*)\)/gi;
     const matches = data.match(urlRegEx);
     const urlsObj = {
@@ -97,16 +97,19 @@ const getUrlLinks = (dataObj) => {
     };
     if (matches) {
         urls.push(...matches)
+    } else {
+        urls.push('No links found')
     };
     return urlsObj
 };
 
-/* const dataObFalso = {
+const dataObFalso = {
     file: 'rutafalsa',
     data: 'nopasanaconloslinksss'
 }
- console.log(getUrlLinks(dataObFalso))
- */
+const objetosinlinks = getUrlLinks(dataObFalso);
+// console.log(objetosinlinks)
+
 /* readMdFile(ruta)
    .then((res) => {
        console.log(getUrlLinks(res))
@@ -129,15 +132,15 @@ const analiseUrls = (linksObj) => {
     //entra un objeto con un path de archivo y un array de links
     const links = linksObj.links;
     const file = linksObj.file;
-    if (links === []) {
-        return `${file} : No links found`
+    if (links.length === 1 && links[0] === 'No links found') {
+        return linksObj;
     } else {
         //array con objetos de links analizados (1 link = 1 linkObject)
         const analisedLinks = links.map((link) => {
-            const hrefRegEx = /\(([^)]+)\)/g;
+            const hrefRegEx = /\http([^)]+)\)/g;
             const textRegEx = /\[([^\[\]]*?)\]/g;
-            const href = link.match(hrefRegEx).toString().replace(/\(|\)/g, '');
-            const text = link.match(textRegEx).toString().replace(/[\[\]]/g, '');
+            const href = link.match(hrefRegEx)?.toString().replace(/\(|\)/g, '');
+            const text = link.match(textRegEx)?.toString().replace(/[\[\]]/g, '');
             const linkObject = {
                 href,
                 text,
@@ -149,7 +152,8 @@ const analiseUrls = (linksObj) => {
     };
 };
 
-// console.log(analiseUrls(objetoLinks))
+ // console.log(analiseUrls(objetosinlinks))
+ //console.log(objetosinlinks.links)
 
 // tomar links analizados y validar (para { validate : true })
 const validateUrls = (parsedLinks) => {

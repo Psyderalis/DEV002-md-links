@@ -9,7 +9,7 @@ const {
     getUrlLinks,
     analiseUrls,
 
-} = require('./md-links-utils.js');
+} = require('./utils.js');
 
 const validDirPath = './files-to-read';
 const absolutePath = 'C:\\Users\\melan\\Desktop\\Proyectos Laboratoria\\DEV002-md-links\\files-to-read';
@@ -53,6 +53,7 @@ const mdLinks = (path, option) => {
         })
         // retorno array de resultados de cada archivo
         const result = Promise.all(analisedLinksPromisesArr)
+        //const result = Promise.all(analisedLinksPromisesArr)
         res(result)
     });
     return mdLinksPromise

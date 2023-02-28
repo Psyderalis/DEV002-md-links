@@ -5,7 +5,7 @@ const {
   resolvePath,
   readDirRecursive,
   readMdFile
-} = require('../src/md-links-utils.js');
+} = require('../src/utils.js');
 
 const validMDPath = './files-to-read/achicando.md';
 const validDirPath = './files-to-read';
