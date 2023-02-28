@@ -8,21 +8,22 @@ const {
     readMdFile,
     getUrlLinks,
     analiseUrls,
+    getStatus
 
 } = require('./utils.js');
 
 const validDirPath = './files-to-read';
 const absolutePath = 'C:\\Users\\melan\\Desktop\\Proyectos Laboratoria\\DEV002-md-links\\files-to-read';
 const validateFalseOp = { validate: false }
-
+const validateTrueOp = { validate: true }
 
 const mdLinks = (path, option) => {
-    const mdLinksPromise = new Promise((res, rej) => {
+    const mdLinksPromise = new Promise((resolve, reject) => {
         if (!isValidPath(path)) {
-            rej('Invalid path')
+            reject('Invalid path')
         };
         if (!isValidOption(option)) {
-            rej('Invalid option')
+            reject('Invalid option')
         };
         if (!isAbsolutePath(path)) {
             const resolvedPath = resolvePath(currentWorkingDir, path);
@@ -50,17 +51,29 @@ const mdLinks = (path, option) => {
                 return analisedLink
             });
             return analisedLinksPromise
+        });
+        // RETORNO POR DEFECTO
+        //const result = Promise.all(linksPromisesArr)
+        const defaultResults = Promise.all(analisedLinksPromisesArr).then((res) => {
+            return res.flat();
         })
-        // retorno array de resultados de cada archivo
-        const result = Promise.all(analisedLinksPromisesArr)
-        //const result = Promise.all(analisedLinksPromisesArr)
-        res(result)
+        if (!option.validate) {
+            resolve(defaultResults)
+            //RETORNO CON VALIDACION
+        } else {
+            const validatedResults = defaultResults.then((arr) => {
+                return getStatus(arr)
+            })
+            resolve(validatedResults)
+        }
     });
     return mdLinksPromise
-
 }
-mdLinks(validDirPath, validateFalseOp)
+mdLinks(validDirPath, validateTrueOp)
     .then(console.log)
+
+/* mdLinks(validDirPath, validateFalseOp)
+    .then(console.log) */
 
 // console.log(mdLinks(validDirPath, validateFalseOp));
 //console.log(mdLinks(absolutePath, validateFalseOp))
