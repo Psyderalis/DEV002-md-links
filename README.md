@@ -8,7 +8,7 @@ Reflexiona y luego marca los objetivos que has llegado a entender y aplicar en t
 
 - [ ] **Diferenciar entre tipos de datos primitivos y no primitivos**
 
-- [ ] **Arrays (arreglos)**
+- [x] **Arrays (arreglos)**
 
   <details><summary>Links</summary><p>
 
@@ -21,7 +21,7 @@ Reflexiona y luego marca los objetivos que has llegado a entender y aplicar en t
   * [Array.prototype.reduce() - MDN](https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Global_Objects/Array/Reduce)
 </p></details>
 
-- [ ] **Objetos (key, value)**
+- [x] **Objetos (key, value)**
 
   <details><summary>Links</summary><p>
 
@@ -36,7 +36,7 @@ Reflexiona y luego marca los objetivos que has llegado a entender y aplicar en t
   * [Tomando decisiones en tu código — condicionales - MDN](https://developer.mozilla.org/es/docs/Learn/JavaScript/Building_blocks/conditionals)
 </p></details>
 
-- [ ] **Funciones (params, args, return)**
+- [x] **Funciones (params, args, return)**
 
   <details><summary>Links</summary><p>
 
@@ -46,7 +46,7 @@ Reflexiona y luego marca los objetivos que has llegado a entender y aplicar en t
   * [Funciones — bloques de código reutilizables - MDN](https://developer.mozilla.org/es/docs/Learn/JavaScript/Building_blocks/Functions)
 </p></details>
 
-- [ ] **Recursión o recursividad**
+- [x] **Recursión o recursividad**
 
   <details><summary>Links</summary><p>
 
@@ -54,7 +54,7 @@ Reflexiona y luego marca los objetivos que has llegado a entender y aplicar en t
   * [Recursión o Recursividad - Laboratoria Developers en Medium](https://medium.com/laboratoria-developers/recursi%C3%B3n-o-recursividad-ec8f1a359727)
 </p></details>
 
-- [ ] **Módulos de CommonJS**
+- [x] **Módulos de CommonJS**
 
   <details><summary>Links</summary><p>
 
@@ -63,14 +63,14 @@ Reflexiona y luego marca los objetivos que has llegado a entender y aplicar en t
 
 - [ ] **Diferenciar entre expresiones (expressions) y sentencias (statements)**
 
-- [ ] **Callbacks**
+- [x] **Callbacks**
 
   <details><summary>Links</summary><p>
 
   * [Función Callback - MDN](https://developer.mozilla.org/es/docs/Glossary/Callback_function)
 </p></details>
 
-- [ ] **Promesas**
+- [x] **Promesas**
 
   <details><summary>Links</summary><p>
 
@@ -78,21 +78,21 @@ Reflexiona y luego marca los objetivos que has llegado a entender y aplicar en t
   * [How to Write a JavaScript Promise - freecodecamp (en inglés)](https://www.freecodecamp.org/news/how-to-write-a-javascript-promise-4ed8d44292b8/)
 </p></details>
 
-- [ ] **Pruebas unitarias (unit tests)**
+- [x] **Pruebas unitarias (unit tests)**
 
   <details><summary>Links</summary><p>
 
   * [Empezando con Jest - Documentación oficial](https://jestjs.io/docs/es-ES/getting-started)
 </p></details>
 
-- [ ] **Pruebas asíncronas**
+- [x] **Pruebas asíncronas**
 
   <details><summary>Links</summary><p>
 
   * [Tests de código asincrónico con Jest - Documentación oficial](https://jestjs.io/docs/es-ES/asynchronous)
 </p></details>
 
-- [ ] **Uso de mocks y espías**
+- [x] **Uso de mocks y espías**
 
   <details><summary>Links</summary><p>
 
@@ -101,27 +101,27 @@ Reflexiona y luego marca los objetivos que has llegado a entender y aplicar en t
 
 - [ ] **Pruebas de compatibilidad en múltiples entornos de ejecución**
 
-- [ ] **Uso de linter (ESLINT)**
+- [x] **Uso de linter (ESLINT)**
 
-- [ ] **Uso de identificadores descriptivos (Nomenclatura y Semántica)**
+- [x] **Uso de identificadores descriptivos (Nomenclatura y Semántica)**
 
 ### Node.js
 
-- [ ] **Instalar y usar módulos con npm**
+- [x] **Instalar y usar módulos con npm**
 
   <details><summary>Links</summary><p>
 
   * [Sitio oficial de npm (en inglés)](https://www.npmjs.com/)
 </p></details>
 
-- [ ] **Configuración de package.json**
+- [x] **Configuración de package.json**
 
   <details><summary>Links</summary><p>
 
   * [package.json - Documentación oficial (en inglés)](https://docs.npmjs.com/files/package.json)
 </p></details>
 
-- [ ] **Configuración de npm-scripts**
+- [x] **Configuración de npm-scripts**
 
   <details><summary>Links</summary><p>
 
@@ -135,7 +135,7 @@ Reflexiona y luego marca los objetivos que has llegado a entender y aplicar en t
   * [Process - Documentación oficial (en inglés)](https://nodejs.org/api/process.html)
 </p></details>
 
-- [ ] **File system (fs, path)**
+- [x] **File system (fs, path)**
 
   <details><summary>Links</summary><p>
 
@@ -145,21 +145,21 @@ Reflexiona y luego marca los objetivos que has llegado a entender y aplicar en t
 
 ### Control de Versiones (Git y GitHub)
 
-- [ ] **Git: Instalación y configuración**
+- [x] **Git: Instalación y configuración**
 
-- [ ] **Git: Control de versiones con git (init, clone, add, commit, status, push, pull, remote)**
+- [x] **Git: Control de versiones con git (init, clone, add, commit, status, push, pull, remote)**
 
-- [ ] **Git: Integración de cambios entre ramas (branch, checkout, fetch, merge, reset, rebase, tag)**
+- [x] **Git: Integración de cambios entre ramas (branch, checkout, fetch, merge, reset, rebase, tag)**
 
-- [ ] **GitHub: Creación de cuenta y repos, configuración de llaves SSH**
+- [x] **GitHub: Creación de cuenta y repos, configuración de llaves SSH**
 
-- [ ] **GitHub: Colaboración en Github (branches | forks | pull requests | code review | tags)**
+- [x] **GitHub: Colaboración en Github (branches | forks | pull requests | code review | tags)**
 
-- [ ] **GitHub: Organización en Github (projects | issues | labels | milestones | releases)**
+- [x] **GitHub: Organización en Github (projects | issues | labels | milestones | releases)**
 
 ### HTTP
 
-- [ ] **Consulta o petición (request) y respuesta (response).**
+- [x] **Consulta o petición (request) y respuesta (response).**
 
   <details><summary>Links</summary><p>
 
@@ -167,7 +167,7 @@ Reflexiona y luego marca los objetivos que has llegado a entender y aplicar en t
   * [Mensajes HTTP - MDN](https://developer.mozilla.org/es/docs/Web/HTTP/Messages)
 </p></details>
 
-- [ ] **Códigos de status de HTTP**
+- [x] **Códigos de status de HTTP**
 
   <details><summary>Links</summary><p>
 
