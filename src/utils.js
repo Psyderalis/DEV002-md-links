@@ -83,11 +83,9 @@ const readMdFile = file => {
     })
 };
 
-/* readMdFile(ruta)
+/* readMdFile('ruta')
     .then(console.log)
-    .catch(error => {
-        console.error(error);
-    }); */
+    .catch(console.error); */
 
 
 // obteninedo links de data. Retorna objeto con path y links
@@ -235,15 +233,8 @@ module.exports = {
     resolvePath,
     readDirRecursive,
     readMdFile,
-    isDir,
-    isMdFile,
-    readDir,
-    getMdFiles,
-    getSubDirs,
     getUrlLinks,
     analiseUrls,
     getStatus,
-    fs,
-    path,
     axios
 }
