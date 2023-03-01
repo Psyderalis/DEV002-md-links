@@ -7,6 +7,10 @@ const isValidPath = (myPath) => (fs.existsSync(myPath));
 
 // validación de option. Devuelve true or false
 const isValidOption = (option) => (typeof option === 'object' && (option.validate === true || option.validate === false));
+// console.log(isValidOption({ validate: true }))
+// console.log(isValidOption({ validate: false }))
+// console.log(isValidOption('invalid-option'))
+// const isValidOption = (option) => (typeof option === 'object' && (option.validate === true || option.validate === false));
 
 // validación de path absoluta o relativa. Devuelve true or false
 const isAbsolutePath = (myPath) => path.isAbsolute(myPath);
@@ -153,8 +157,10 @@ const analiseUrls = (linksObj) => {
         const analisedLinks = links.map((link) => {
             const hrefRegEx = /\http([^)]+)\)/g;
             const textRegEx = /\[([^\[\]]*?)\]/g;
-            const href = link.match(hrefRegEx)?.toString().replace(/\(|\)/g, '');
-            const text = link.match(textRegEx)?.toString().replace(/[\[\]]/g, '');
+            const hrefMatch = link.match(hrefRegEx);
+            const href = hrefMatch ? hrefMatch.toString().replace(/\(|\)/g, '') : null;
+            const textMatch = link.match(textRegEx)
+            const text = textMatch ? textMatch.toString().replace(/[\[\]]/g, '') : null;
             const linkObject = {
                 href,
                 text,
@@ -168,13 +174,13 @@ const analiseUrls = (linksObj) => {
 
 const parsedLinks = [{
     file: 'C:\\Users\\melan\\Desktop\\Proyectos Laboratoria\\DEV002-md-links\\files-to-read\\entreg-hackeredit.md',
-    links: [ 'No links found' ]
-  },
-  {
+    links: ['No links found']
+},
+{
     href: 'https://es.wikipedia.org/wiki/Markdown',
     text: 'Markdown',
     file: 'C:\\Users\\melan\\Desktop\\Proyectos Laboratoria\\DEV002-md-links\\files-to-read\\indice-preambulo.md'
-  }]
+}]
 // console.log(parsedLinks)
 // console.log(analiseUrls(objetosinlinks))
 //console.log(objetosinlinks.links)
@@ -189,15 +195,14 @@ const getStatus = (parsedLinksArr) => {
             return parsedLink
         } else {
             const href = parsedLink.href;
+            const linkObj = parsedLink;
             return validateUrl(href)
                 .then((res) => {
-                    const linkObj = parsedLink;
                     linkObj.status = res.status;
                     linkObj.ok = res.statusText
                     return linkObj
                 })
                 .catch((err) => {
-                    const linkObj = parsedLink;
                     linkObj.status = err.response ? err.response.status : 'ERROR';
                     linkObj.ok = 'FAIL'
                     return linkObj
@@ -230,8 +235,15 @@ module.exports = {
     resolvePath,
     readDirRecursive,
     readMdFile,
-    fs,
+    isDir,
+    isMdFile,
+    readDir,
+    getMdFiles,
+    getSubDirs,
     getUrlLinks,
     analiseUrls,
-    getStatus
+    getStatus,
+    fs,
+    path,
+    axios
 }

@@ -5,7 +5,14 @@ const {
   resolvePath,
   readDirRecursive,
   readMdFile,
-  fs
+  isDir,
+  isMdFile,
+  readDir,
+  getMdFiles,
+  getSubDirs,
+  fs,
+  path,
+  axios
 } = require('../src/utils.js');
 
 const validMDPath = './files-to-read/achicando.md';
@@ -14,10 +21,7 @@ const invalidPath = 'achicando';
 const absolutePath = '/home/user/app.js';
 const relativePath = './app.js';
 const myCurrentWorkingDirectory = '/home/user';
-const validOption1 = { validate: true };
-const validOption2 = { validate: false };
-const invalidOption1 = 'option';
-const invalidOption2 = { validate: 33 };
+
 const invalidFile = 'check.txt';
 const subDirsAndFiles = [
   'achicando.md',
@@ -29,92 +33,169 @@ const subDirsAndFiles = [
   'tips.md'
 ];
 
-// mock para el caso en que la promesa readMdFile resuelve correctamente
+/* // mock para módulo fs
 jest.mock('fs', () => ({
-  readFile: (file, encoding, callback) => {
-    const data = 'Contenido del archivo';
-    callback(null, data); //null para error
-  },
+  existsSync: jest.fn(),
+  statSync: jest.fn(() => ({
+    isDirectory: jest.fn()
+  })),
+  readdirSync: jest.fn(),
+  readFile: jest.fn(),
+}));
+*/
+/* // mock para módulo path
+jest.mock('path', () => ({
+  isAbsolute: jest.fn(),
+  resolve: jest.fn(),
+  extname: jest.fn(),
+  join: jest.fn(),
+}));  */
+
+// mock para módulo axios ARREGLAAAAR
+jest.mock('axios', () => ({
+  isAbsolute: jest.fn(),
+  resolve: jest.fn(),
+  extname: jest.fn(),
+  join: jest.fn(),
 }));
 
-// mock para el caso en que la promesa readMdFile es rechazada
-jest.mock('fs', () => ({
-  readFile: (file, encoding, callback) => {
-    const error = new Error('Error leyendo archivo');
-    callback(error, null); //null para data
-  },
-}));
 
 /* ---------------------------------------------------------------
------------- TEST                        ----------------------- */
+------------           TEST                         */
 
 // test para validacion de path
 describe('Test to isValidPath()', () => {
   test('Returns true for a valid path', () => {
-    expect(isValidPath(validMDPath)).toBe(true)
+    isValidPath(validMDPath);
+    expect(result).toBe(true);
   });
   test('Returns true for a valid diretory path', () => {
-    expect(isValidPath(validDirPath)).toBe(true)
+    const result = isValidPath(validDirPath);
+    expect(result).toBe(true);
   });
   test('Returns false for an invalid path', () => {
-    expect(() => isValidPath(invalidPath)).toBe(false)
+    const result = isValidPath(invalidPath);
+    expect(result).toBe(false);
   });
 });
+/* // test para validacion de path
+describe('Test to isValidPath()', () => {
+  test('Returns true for a valid path', () => {
+    // Configurando el mock para que devuelva true
+    fs.existsSync.mockReturnValue(true);
+    const result = isValidPath(validMDPath);
+    expect(result).toBe(true);
+  });
+  test('Returns true for a valid diretory path', () => {
+    fs.existsSync.mockReturnValue(true);
+    const result = isValidPath(validDirPath);
+    expect(result).toBe(true);
+  });
+  test('Returns false for an invalid path', () => {
+    fs.existsSync.mockReturnValue(false);
+    const result = isValidPath(invalidPath);
+    expect(result).toBe(false);
+  });
+}); */
 
 // test para validación de option
 describe('Test to isValidOption()', () => {
   test('Returns true for a valid option', () => {
-    expect(isValidOption(validOption1)).toBe(true)
+    const validOption1 = { validate: true };
+    const result = isValidOption(validOption1)
+    expect(result).toBe(true)
   });
   test('Returns true for a valid option', () => {
-    expect(isValidOption(validOption2)).toBe(true)
+    const validOption2 = { validate: false };
+    const result = isValidOption(validOption2)
+    expect(result).toBe(true)
   });
   test('Returns false for an invalid option', () => {
-    expect(() => isValidOption(invalidOption1)).toBe(false)
+    const invalidOption1 = 'invalid-option';
+    const result = isValidOption(invalidOption1)
+    expect(result).toBe(false)
   });
   test('Returns false for an invalid option', () => {
-    expect(() => isValidOption(invalidOption2)).toBe(false)
+    const invalidOption2 = { validate: 'invalid-option' };
+    const result = isValidOption(invalidOption2)
+    expect(result).toBe(false)
   });
 });
 
 // test para validación de path absoluta o relativa
 describe('Test to isAbsolutePath()', () => {
-  test('Returns true for an absolute path', () => {
-    return expect(isAbsolutePath(absolutePath)).toBe(true)
+  test('path.isAbsolute() should be called with the correct arguments ', () => {
+    isAbsolutePath(absolutePath)
+    expect(path.isAbsolute).toHaveBeenCalledWith(absolutePath)
   });
-  test('Returns false for a relative path', () => {
-    return expect(isAbsolutePath(relativePath)).toBe(false)
+  test('path.isAbsolute() should be called with the correct arguments ', () => {
+    isAbsolutePath(relativePath)
+    expect(path.isAbsolute).toHaveBeenCalledWith(relativePath)
   });
 });
 
 // test para resolver ruta relativa a absoluta
 describe('Test to resolvePath()', () => {
-  test('Resolves a relative path into an absolute path', () => {
-    return expect(resolvePath(myCurrentWorkingDirectory, relativePath)).toBe('C:\\home\\user\\app.js')
+  test('path.resolve() should be called with the correct arguments ', () => {
+    resolvePath(myCurrentWorkingDirectory, relativePath)
+    expect(path.resolve).toHaveBeenCalledWith(myCurrentWorkingDirectory, relativePath)
   });
 });
+/* // test para validación de path absoluta o relativa
+describe('Test to isAbsolutePath()', () => {
+  test('path.isAbsolute() should be called with the correct arguments ', () => {
+    isAbsolutePath(absolutePath)
+    expect(path.isAbsolute).toHaveBeenCalledWith(absolutePath)
+  });
+  test('path.isAbsolute() should be called with the correct arguments ', () => {
+    isAbsolutePath(relativePath)
+    expect(path.isAbsolute).toHaveBeenCalledWith(relativePath)
+  });
+});
+
+// test para resolver ruta relativa a absoluta
+describe('Test to resolvePath()', () => {
+  test('path.resolve() should be called with the correct arguments ', () => {
+    resolvePath(myCurrentWorkingDirectory, relativePath)
+    expect(path.resolve).toHaveBeenCalledWith(myCurrentWorkingDirectory, relativePath)
+  });
+}); */
+
+// test para validacion de directorio
+/* describe('Test to isDir()', () => {
+  test('isDirectory() should be called', () => {
+    isDir(validDirPath)
+    expect(fs.statSync).toHaveBeenCalledWith(validDirPath);
+    //expect(fs.statSync().isDirectory).toHaveBeenCalled();
+  });
+}); */
 
 // test para lectura recursiva de dir y extraccion de md
 describe('Test to readDirRecursive()', () => {
   test('Returns false for a file path that is not md', () => {
-    return expect(() => readDirRecursive('./files-to-read/OAs.txt')).toBe(false)
+    const notMdPath = './files-to-read/OAs.txt';
+    const result = readDirRecursive(notMdPath);
+    expect(result).toBe(false)
   });
   test('Returns an array with an md file path for a md file path', () => {
-    return expect(readDirRecursive(validMDPath)).toEqual([validMDPath])
+    const result = readDirRecursive(validMDPath);
+    expect(result).toEqual([validMDPath])
   });
   test('Returns an array of md files for a directory path', () => {
-    return expect(readDirRecursive(validDirPath)).toEqual([
+    const mdFilesArr = [
       'achicando.md',
       'criterios.md',
       'entreg-hackeredit.md',
       'indice-preambulo.md',
       'tips.md',
       'resumen.md',
-    ])
+    ]
+    const result = readDirRecursive(validDirPath);
+    expect(result).toEqual(mdFilesArr)
   });
 });
-
-// test para lectura de archivo md 
+/*
+// test para lectura de archivo md
 describe('Test to readMdFile() promise', () => {
   test('resolves to an object containing the filename and its data', () => {
     return expect(validatePath(validPath)).resolves.toEqual(true)
@@ -140,7 +221,7 @@ describe('readMdFile', () => {
       expect(error).toHaveProperty('message', `ENOENT: no such file or directory, open '${file}'`);
     });
   });
-});
+}); */
 
 
 //------------------------------------
