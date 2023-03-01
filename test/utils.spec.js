@@ -4,7 +4,8 @@ const {
   isAbsolutePath,
   resolvePath,
   readDirRecursive,
-  readMdFile
+  readMdFile,
+  fs
 } = require('../src/utils.js');
 
 const validMDPath = './files-to-read/achicando.md';
@@ -27,6 +28,26 @@ const subDirsAndFiles = [
   'subdirectory',
   'tips.md'
 ];
+
+// mock para el caso en que la promesa readMdFile resuelve correctamente
+jest.mock('fs', () => ({
+  readFile: (file, encoding, callback) => {
+    const data = 'Contenido del archivo';
+    callback(null, data); //null para error
+  },
+}));
+
+// mock para el caso en que la promesa readMdFile es rechazada
+jest.mock('fs', () => ({
+  readFile: (file, encoding, callback) => {
+    const error = new Error('Error leyendo archivo');
+    callback(error, null); //null para data
+  },
+}));
+
+/* ---------------------------------------------------------------
+------------ TEST                        ----------------------- */
+
 // test para validacion de path
 describe('Test to isValidPath()', () => {
   test('Returns true for a valid path', () => {
@@ -94,16 +115,33 @@ describe('Test to readDirRecursive()', () => {
 });
 
 // test para lectura de archivo md 
-describe('Test to readMdFile()', () => {
-  test('Throws error for an invalid path', () => {
-    return expect(() => readMdFile(invalidPath)).toThrow()
+describe('Test to readMdFile() promise', () => {
+  test('resolves to an object containing the filename and its data', () => {
+    return expect(validatePath(validPath)).resolves.toEqual(true)
   });
-  test('Returns an array of urls for a file path', () => {
-    return expect(readMdFile(validMDPath)).toEqual([
-      ['(https://www.youtube.com/watch?v=Lub5qOmY4JQ)']
-    ])
+  test('Throw error for an invalid path', () => {
+    return expect(validatePath(invalidPath)).rejects.toThrow()
   });
 });
+
+describe('readMdFile', () => {
+  test('returns an object with file and data properties on successful file read', () => {
+    const file = 'test-file.md';
+    return readMdFile(file).then(data => {
+      expect(data).toHaveProperty('file', file);
+      expect(data).toHaveProperty('data', 'Contenido del archivo');
+    });
+  });
+
+  test('throws an error on failed file read', () => {
+    const file = 'non-existent-file.md';
+    return readMdFile(file).catch(error => {
+      expect(error).toBeInstanceOf(Error);
+      expect(error).toHaveProperty('message', `ENOENT: no such file or directory, open '${file}'`);
+    });
+  });
+});
+
 
 //------------------------------------
 /* describe('mdLinks', () => {

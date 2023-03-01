@@ -36,6 +36,9 @@ const mdLinks = (path, option) => {
         // array de promesas que resuelven en la data de cada archivo)
         const dataPromisesArr = mdFiles.map(file => {
             const dataPromise = readMdFile(file);
+            dataPromise.catch((err) => {
+                reject(err)
+            })
             return dataPromise
             // en el catch rechazar promesa principal               
         });
@@ -62,12 +65,14 @@ const mdLinks = (path, option) => {
         })
         if (!option.validate) {
             resolve(defaultResults)
-            //RETORNO CON VALIDACION
-        } else {
-            const validatedResults = defaultResults.then((arr) => {
-                return getStatus(arr)
+        }
+        //RETORNO CON VALIDACION
+        else {
+            const validatedResultsArr = defaultResults.then((arr) => {
+                const validatedResult = getStatus(arr);
+                return validatedResult
             })
-            resolve(validatedResults)
+            resolve(validatedResultsArr)
         }
     });
     return mdLinksPromise

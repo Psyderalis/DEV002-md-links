@@ -230,6 +230,7 @@ module.exports = {
     resolvePath,
     readDirRecursive,
     readMdFile,
+    fs,
     getUrlLinks,
     analiseUrls,
     getStatus
