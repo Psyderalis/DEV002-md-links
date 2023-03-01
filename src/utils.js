@@ -43,7 +43,7 @@ const getSubDirs = (arr) => arr.filter((file) => isDir(file)); // .statSync, dev
 const readDirRecursive = (myPath) => { //entra ruta 
     // caso base: la ruta corresponde a un archivo
     if (!isDir(myPath) && !isMdFile(myPath)) {
-        throw new Error('Invalid type of file'); // lanzar una excepción
+        return false; // lanzar una excepción
     }
     if (!isDir(myPath) && isMdFile(myPath)) {
         return [myPath]

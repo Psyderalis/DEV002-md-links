@@ -35,8 +35,8 @@ describe('Test to isValidPath()', () => {
   test('Returns true for a valid diretory path', () => {
     expect(isValidPath(validDirPath)).toBe(true)
   });
-  test('Throws error for an invalid path', () => {
-    expect(() => isValidPath(invalidPath)).toThrow()
+  test('Returns false for an invalid path', () => {
+    expect(() => isValidPath(invalidPath)).toBe(false)
   });
 });
 
@@ -48,11 +48,11 @@ describe('Test to isValidOption()', () => {
   test('Returns true for a valid option', () => {
     expect(isValidOption(validOption2)).toBe(true)
   });
-  test('Throws error for an invalid option', () => {
-    expect(() => isValidOption(invalidOption1)).toThrow()
+  test('Returns false for an invalid option', () => {
+    expect(() => isValidOption(invalidOption1)).toBe(false)
   });
-  test('Throws error for an invalid option', () => {
-    expect(() => isValidOption(invalidOption2)).toThrow()
+  test('Returns false for an invalid option', () => {
+    expect(() => isValidOption(invalidOption2)).toBe(false)
   });
 });
 
@@ -73,16 +73,10 @@ describe('Test to resolvePath()', () => {
   });
 });
 
-// test para validacion de directorio
-// ---------------------------
-
-// test para validacion de archivo md
-// ---------------------------
-
 // test para lectura recursiva de dir y extraccion de md
 describe('Test to readDirRecursive()', () => {
-  test('Throws error for a file path that is not md', () => {
-    return expect(() => readDirRecursive('./files-to-read/OAs.txt')).toThrow()
+  test('Returns false for a file path that is not md', () => {
+    return expect(() => readDirRecursive('./files-to-read/OAs.txt')).toBe(false)
   });
   test('Returns an array with an md file path for a md file path', () => {
     return expect(readDirRecursive(validMDPath)).toEqual([validMDPath])
@@ -99,7 +93,7 @@ describe('Test to readDirRecursive()', () => {
   });
 });
 
-// test para lectura de archivo md y extraccion de links
+// test para lectura de archivo md 
 describe('Test to readMdFile()', () => {
   test('Throws error for an invalid path', () => {
     return expect(() => readMdFile(invalidPath)).toThrow()

@@ -30,6 +30,9 @@ const mdLinks = (path, option) => {
             path = resolvedPath;
         };
         const mdFiles = readDirRecursive(path);
+        if (!mdFiles) {
+            reject('Invalid type of file')
+        }
         // array de promesas que resuelven en la data de cada archivo)
         const dataPromisesArr = mdFiles.map(file => {
             const dataPromise = readMdFile(file);
@@ -72,11 +75,9 @@ const mdLinks = (path, option) => {
 mdLinks(validDirPath, validateTrueOp)
     .then(console.log)
 
-/* mdLinks(validDirPath, validateFalseOp)
+/* mdLinks(absolutePath, validateFalseOp)
     .then(console.log) */
 
-// console.log(mdLinks(validDirPath, validateFalseOp));
-//console.log(mdLinks(absolutePath, validateFalseOp))
 
 
 module.exports = { mdLinks }
