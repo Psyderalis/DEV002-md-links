@@ -1,6 +1,11 @@
 #!/usr/bin/env node
 const process = require('process');
 const { mdLinks } = require('./src/md-links');
+const {
+    getSimpleStats,
+    getBrokenLinks,
+    getCompleteStats
+} = require('./src/stats.js')
 
 const validDirPath = './files-to-read';
 const absolutePath = 'C:\\Users\\melan\\Desktop\\Proyectos Laboratoria\\DEV002-md-links\\files-to-read';
