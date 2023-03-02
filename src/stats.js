@@ -1,26 +1,6 @@
 
 // ---- Para las estadísticas --stats
-const simpleLinksArr = [
-    {
-        href: 'https://www.youtube.com/watch?v=Lub5qOmY4JQ',
-        text: 'recurso',
-        file: 'C:\\Users\\melan\\Desktop\\Proyectos Laboratoria\\DEV002-md-links\\files-to-read\\achicando.md'
-    },
-    {
-        file: 'C:\\Users\\melan\\Desktop\\Proyectos Laboratoria\\DEV002-md-links\\files-to-read\\criterios.md',
-        links: ['No links found']
-    },
-    {
-        href: 'https://es.wikipedia.org/wiki/Markdown',
-        text: 'Markdown',
-        file: 'C:\\Users\\melan\\Desktop\\Proyectos Laboratoria\\DEV002-md-links\\files-to-read\\indice-preambulo.md'
-    },
-    {
-        href: 'https://es.wikipedia.org/wiki/Markdown',
-        text: 'Markdown',
-        file: 'C:\\Users\\melan\\Desktop\\Proyectos Laboratoria\\DEV002-md-links\\files-to-read\\indice-preambulo.md'
-    },
-];
+
 const getSimpleStats = (linksArr) => {
     const onlyLinks = linksArr.filter(linkObj => linkObj.href)
     const links = onlyLinks.map(linkObj => linkObj.href);
