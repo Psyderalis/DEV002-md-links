@@ -77,8 +77,8 @@ const mdLinks = (path, option) => {
     });
     return mdLinksPromise
 }
-mdLinks(validDirPath, validateTrueOp)
-    .then(console.log)
+/* mdLinks(validDirPath, validateTrueOp)
+    .then(console.log) */
 
 /* mdLinks(absolutePath, validateFalseOp)
     .then(console.log) */

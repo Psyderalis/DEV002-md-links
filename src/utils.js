@@ -83,10 +83,6 @@ const readMdFile = file => {
     })
 };
 
-/* readMdFile('ruta')
-    .then(console.log)
-    .catch(console.error); */
-
 
 // obteninedo links de data. Retorna objeto con path y links
 const getUrlLinks = (dataObj) => {
@@ -153,8 +149,8 @@ const analiseUrls = (linksObj) => {
     } else {
         //array con objetos de links analizados (1 link = 1 linkObject)
         const analisedLinks = links.map((link) => {
-            const hrefRegEx = /\http([^)]+)\)/g;
-            const textRegEx = /\[([^\[\]]*?)\]/g;
+            const hrefRegEx = /\https?:([^)]+)\)/gi;
+            const textRegEx = /\[([^\[\]]*?)\]/gi;
             const hrefMatch = link.match(hrefRegEx);
             const href = hrefMatch ? hrefMatch.toString().replace(/\(|\)/g, '') : null;
             const textMatch = link.match(textRegEx)
@@ -179,9 +175,6 @@ const parsedLinks = [{
     text: 'Markdown',
     file: 'C:\\Users\\melan\\Desktop\\Proyectos Laboratoria\\DEV002-md-links\\files-to-read\\indice-preambulo.md'
 }]
-// console.log(parsedLinks)
-// console.log(analiseUrls(objetosinlinks))
-//console.log(objetosinlinks.links)
 
 // tomar links analizados y validar (para { validate : true })
 const validateUrl = (link) => axios.get(link);
@@ -210,20 +203,7 @@ const getStatus = (parsedLinksArr) => {
     return Promise.all(validatedLinks)
 };
 
-// getStatus(parsedLinks).then(console.log)
-//console.log(getStatus(parsedLinks))
 
-//console.log(objetosimple)
-
-// getStatus(parsedLink).then(console.log)
-
-
-
-/*const option = { validate : true}
-
-
-console.log(analiseUrlLinks(linksarray, ruta, option
-)); */
 
 module.exports = {
     isValidPath,
