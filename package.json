@@ -5,7 +5,8 @@
   "license": "MIT",
   "author": "Melanie Tolvett S. <melanietolvett@gmail.com>",
   "main": "src/index.js",
-  "bin": "src/cli.js",
+  "bin": {
+    "md-links": "cli.js"},
   "repository": "github:Psyderalis/DEV002-md-links",
   "scripts": {
     "eslint": "eslint --ext .js src/ test/",
@@ -28,5 +29,8 @@
   },
   "devDependencies": {
     "jest": "^29.4.1"
+  },
+  "dependencies": {
+    "axios": "^1.3.4"
   }
 }
