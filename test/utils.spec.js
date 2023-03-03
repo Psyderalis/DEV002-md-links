@@ -7,6 +7,7 @@ const {
   readMdFile,
   getUrlLinks,
   analiseUrls,
+  validateUrl,
   getStatus,
   axios
 } = require('../src/utils.js');
@@ -17,25 +18,22 @@ const invalidPath = 'achicando';
 const absolutePath = '/home/user/app.js';
 const relativePath = './app.js';
 const myCurrentWorkingDirectory = '/home/user';
+const linksData = {
+  file: 'path',
+  links: ['[recurso](https://www.youtube.com/watch?v=Lub5qOmY4JQ)']
+};
+const noLinksObject = {
+  file: 'rutafalsa',
+  links: ['No links found']
+};
+const parsedLink = [{
+  href: 'https://www.youtube.com/watch?v=Lub5qOmY4JQ',
+  text: 'recurso',
+  file: 'path',
+}];
 
-const invalidFile = 'check.txt';
-const subDirsAndFiles = [
-  'achicando.md',
-  'criterios.md',
-  'entreg-hackeredit.md',
-  'indice-preambulo.md',
-  'OAs.txt',
-  'subdirectory',
-  'tips.md'
-];
-
-// mock para módulo axios ARREGLAAAAR
-jest.mock('axios', () => ({
-  isAbsolute: jest.fn(),
-  resolve: jest.fn(),
-  extname: jest.fn(),
-  join: jest.fn(),
-}));
+// mock para módulo 
+jest.mock(axios);
 
 
 /* ---------------------------------------------------------------
@@ -126,19 +124,9 @@ describe('Test to readDirRecursive()', () => {
   });
 });
 
-/* // test para lectura de archivo md
-describe('Test to readMdFile() promise', () => {
-  test('resolves to an object containing the filename and its data', () => {
-    return expect(validatePath(validPath)).resolves.toEqual(true)
-  });
-  test('Throw error for an invalid path', () => {
-    return expect(validatePath(invalidPath)).rejects.toThrow()
-  });
-}); */
-
 // test para promesa de lectura de archivo
 describe('Test to readMdFile promise', () => {
-  test('returns an object with file and data properties on successful file read', () => {
+  test('resolves to an object with file and data properties on successful file read', () => {
     const shortTextFile = "files-to-read\\subdirectory\\texto-corto.md"
     const fileObj = {
       file: shortTextFile,
@@ -148,25 +136,58 @@ describe('Test to readMdFile promise', () => {
       expect(res).toEqual(fileObj)
     });
   });
-
-  /* test('should catch error on file read', () => {
-    const file = 'non-existent-file.md';
-    const expectedError = new Error('ENOENT: no such file or directory');
-    return readMdFile(file).catch(error => {
-      expect(typeof error).toBe(object);
-    });
-  }); */
-
+  test('Reject on error', () => {
+    return expect(readMdFile(invalidPath)).rejects.toThrow()
+  });
 });
 
-
-
-
-//------------------------------------
-/* describe('mdLinks', () => {
-
-  it('should...', () => {
-    console.log('FIX ME!');
+// test para obtener links
+describe('Test to getUrlLinks()', () => {
+  test('Returns an object with links and the path', () => {
+    const data = {
+      file: 'path',
+      data: 'Si nunca has hecho un diagrama de flujo revisa este [recurso](https://www.youtube.com/watch?v=Lub5qOmY4JQ).'
+    }
+    const result = getUrlLinks(data);
+    expect(result).toEqual(linksData)
   });
+  test('Returns an object with the path and \'No links found\' response when there are no links', () => {
+    const noLinksData = {
+      file: 'rutafalsa',
+      data: 'nopasanaconloslinksss'
+    };
 
+    const result = getUrlLinks(noLinksData);
+    expect(result).toEqual(noLinksObject)
+  })
+});
+
+// test para analizar links
+describe('test to analiseUrls()', () => {
+  test('Returns an array with objecs representing parsed links', () => {
+    const result = analiseUrls(linksData);
+    expect(result).toEqual(parsedLink)
+  });
+  test('Returns the input object when there are no links', () => {
+    const result = analiseUrls(noLinksObject);
+    expect(result).toEqual(noLinksObject)
+  })
+});
+
+/* //test para obtener el status de un link
+describe('test to getStatus()', () => {
+  test('Returns an array of promises with objects representin validated links', () => {
+    axios.get.mockResolvedValue({status: 200, statusText: 'OK'})
+    const linkStatusArr = [
+      {
+        href: 'https://www.youtube.com/watch?v=Lub5qOmY4JQ',
+        text: 'recurso',
+        file: 'path',
+        status: 200,
+        ok: 'OK'
+      }
+    ];
+    const result = getStatus(parsedLink);
+   return expect(result).toEqual(linkStatusArr);
+  });
 }); */
