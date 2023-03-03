@@ -27,9 +27,11 @@ Desde la terminal ejecuta el comando:
 `node cli.js <path-to-file> [options]`
 
 - `<path-to-file>` : puede ser una ruta absoluta o relativa, hacia un archivo o carpeta.
+
 **El comportamiento por defecto** -> Obtiene una matriz con información de los links.
 
 - `[options]` : 
+
 **--validate** -> Obtiene una matriz con información de los links y sus status.
 
 **--stats** -> Obtiene links totales y links únicos.
