@@ -28,7 +28,7 @@ Reflexiona y luego marca los objetivos que has llegado a entender y aplicar en t
   * [Objetos en JavaScript](https://curriculum.laboratoria.la/es/topics/javascript/05-objects/01-objects)
 </p></details>
 
-- [ ] **Uso de condicionales (if-else, switch, operador ternario, lógica booleana)**
+- [x] **Uso de condicionales (if-else, switch, operador ternario, lógica booleana)**
 
   <details><summary>Links</summary><p>
 
@@ -128,7 +128,7 @@ Reflexiona y luego marca los objetivos que has llegado a entender y aplicar en t
   * [scripts - Documentación oficial (en inglés)](https://docs.npmjs.com/misc/scripts)
 </p></details>
 
-- [ ] **process (env, argv, stdin-stdout-stderr, exit-code)**
+- [x] **process (env, argv, stdin-stdout-stderr, exit-code)**
 
   <details><summary>Links</summary><p>
 
