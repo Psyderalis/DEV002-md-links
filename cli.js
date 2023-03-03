@@ -7,8 +7,6 @@ const {
     getCompleteStats
 } = require('./src/stats.js')
 
-//console.log(process)
-
 const cli = () => {
     const validateFalse = { validate: false }
     const validateTrue = { validate: true }

@@ -7,10 +7,6 @@ const isValidPath = (myPath) => (fs.existsSync(myPath));
 
 // validación de option. Devuelve true or false
 const isValidOption = (option) => (typeof option === 'object' && (option.validate === true || option.validate === false));
-// console.log(isValidOption({ validate: true }))
-// console.log(isValidOption({ validate: false }))
-// console.log(isValidOption('invalid-option'))
-// const isValidOption = (option) => (typeof option === 'object' && (option.validate === true || option.validate === false));
 
 // validación de path absoluta o relativa. Devuelve true or false
 const isAbsolutePath = (myPath) => path.isAbsolute(myPath);
@@ -83,7 +79,6 @@ const readMdFile = file => {
     })
 };
 
-
 // obteninedo links de data. Retorna objeto con path y links
 const getUrlLinks = (dataObj) => {
     const data = dataObj.data;
@@ -100,43 +95,6 @@ const getUrlLinks = (dataObj) => {
         urls.push('No links found')
     };
     return urlsObj
-};
-
-const dataObFalso = {
-    file: 'rutafalsa',
-    data: 'nopasanaconloslinksss'
-}
-const objetosinlinks = getUrlLinks(dataObFalso);
-// console.log(objetosinlinks)
-
-/* readMdFile(ruta)
-   .then((res) => {
-       console.log(getUrlLinks(res))
-   })
-   .catch(error => {
-       console.error(error);
-   }); */
-
-/* const objetoLinks = {
-    file: 'C:\\Users\\melan\\Desktop\\Proyectos Laboratoria\\DEV002-md-links\\files-to-read\\indice-preambulo.md',
-    links: [
-      '[Markdown](https://es.wikipedia.org/wiki/Markdown)',
-      '[Node.js](https://nodejs.org/)',
-      '[md-links](https://user-images.githubusercontent.com/110297/42118443-b7a5f1f0-7bc8-11e8-96ad-9cc5593715a6.jpg)'
-    ]
-  };
- */
-
-
-
-const url = 'https://axios-http.com/docs/example';
-const linkOb = {
-    file: 'C:\\Users\\melan\\Desktop\\Proyectos Laboratoria\\DEV002-md-links\\files-to-read\\indice-preambulo.md',
-    links: [
-        '[Markdown](https://es.wikipedia.org/wiki/Markdown)',
-        '[Node.js](https://nodejs.org/)',
-        '[md-links](https://user-images.githubusercontent.com/110297/42118443-b7a5f1f0-7bc8-11e8-96ad-9cc5593715a6.jpg)'
-    ]
 };
 
 // analizar links y retornar objeto (para { validate : false })
@@ -165,16 +123,6 @@ const analiseUrls = (linksObj) => {
         return analisedLinks
     };
 };
-
-const parsedLinks = [{
-    file: 'C:\\Users\\melan\\Desktop\\Proyectos Laboratoria\\DEV002-md-links\\files-to-read\\entreg-hackeredit.md',
-    links: ['No links found']
-},
-{
-    href: 'https://es.wikipedia.org/wiki/Markdown',
-    text: 'Markdown',
-    file: 'C:\\Users\\melan\\Desktop\\Proyectos Laboratoria\\DEV002-md-links\\files-to-read\\indice-preambulo.md'
-}]
 
 // tomar links analizados y validar (para { validate : true })
 const validateUrl = (link) => axios.get(link);
@@ -215,6 +163,6 @@ module.exports = {
     readMdFile,
     getUrlLinks,
     analiseUrls,
+    validateUrl,
     getStatus,
-    axios
 }
