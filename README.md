@@ -49,5 +49,7 @@ Puede importarse con `require`.
 
 #### - Valor de retorno
 Promesa.
+
 Para `{ validate : false }` : Array de objetos, cada uno representa un link con su información respectiva.
+
 Para `{ validate : true }` : Array de objetos, cada uno representa un link con su información respectiva y status a partir de consulta http.
