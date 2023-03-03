@@ -1,176 +1,49 @@
-HELLO WORLD!
+# **Psyderalis/DEV002-md-links** 🔗
 
-## 3. Objetivos de aprendizaje
+## Índice
 
-Reflexiona y luego marca los objetivos que has llegado a entender y aplicar en tu proyecto. Piensa en eso al decidir tu estrategia de trabajo.
+ [1. Descripción](#1-descripción)
+ [2. Instalación](#2-instalación)
+ [3. Uso](#3-uso)
 
-### JavaScript
+***
 
-- [ ] **Diferenciar entre tipos de datos primitivos y no primitivos**
+# **1. Descripción**
+Este módulo busca en directorios y subdirectorios archivos en formato Markdown, luego los lee y analiza, para verificar el estado de los links que contengan y reportar algunas estadísticas. 
 
-- [x] **Arrays (arreglos)**
+# **2. Instalación**
 
-  <details><summary>Links</summary><p>
+ 1. Debes tener tu proyecto inicializado ([npm init]("https://docs.npmjs.com/cli/v9/commands/npm-init")).
+ 2. Ejecuta en la terminal:
+ `npm install Psyderalis/DEV002-md-links`
 
-  * [Arreglos](https://curriculum.laboratoria.la/es/topics/javascript/04-arrays)
-  * [Array - MDN](https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Global_Objects/Array/)
-  * [Array.prototype.sort() - MDN](https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Global_Objects/Array/sort)
-  * [Array.prototype.forEach() - MDN](https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach)
-  * [Array.prototype.map() - MDN](https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Global_Objects/Array/map)
-  * [Array.prototype.filter() - MDN](https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Global_Objects/Array/filter)
-  * [Array.prototype.reduce() - MDN](https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Global_Objects/Array/Reduce)
-</p></details>
+# **3. Uso**
 
-- [x] **Objetos (key, value)**
+## **Ejecutable**
+Desde la terminal ejecuta el comando:
 
-  <details><summary>Links</summary><p>
+`node cli.js <path-to-file> [options]`
 
-  * [Objetos en JavaScript](https://curriculum.laboratoria.la/es/topics/javascript/05-objects/01-objects)
-</p></details>
+- `<path-to-file>` : puede ser una ruta absoluta o relativa, hacia un archivo o carpeta.
+**El comportamiento por defecto** -> Obtiene una matriz con información de los links.
 
-- [x] **Uso de condicionales (if-else, switch, operador ternario, lógica booleana)**
+- `[options]` : 
+**--validate** -> Obtiene una matriz con información de los links y sus status.
 
-  <details><summary>Links</summary><p>
+**--stats** -> Obtiene links totales y links únicos.
 
-  * [Estructuras condicionales y repetitivas](https://curriculum.laboratoria.la/es/topics/javascript/02-flow-control/01-conditionals-and-loops)
-  * [Tomando decisiones en tu código — condicionales - MDN](https://developer.mozilla.org/es/docs/Learn/JavaScript/Building_blocks/conditionals)
-</p></details>
+**--validate --stats** -> Obtiene links totales, links únicos y links rotos.
 
-- [x] **Funciones (params, args, return)**
+## **Interfaz**
 
-  <details><summary>Links</summary><p>
+#### `mdLinks(path, options)`
+Puede importarse con `require`.
 
-  * [Funciones (control de flujo)](https://curriculum.laboratoria.la/es/topics/javascript/02-flow-control/03-functions)
-  * [Funciones clásicas](https://curriculum.laboratoria.la/es/topics/javascript/03-functions/01-classic)
-  * [Arrow Functions](https://curriculum.laboratoria.la/es/topics/javascript/03-functions/02-arrow)
-  * [Funciones — bloques de código reutilizables - MDN](https://developer.mozilla.org/es/docs/Learn/JavaScript/Building_blocks/Functions)
-</p></details>
+### - Argumentos
+* `path`: Ruta **absoluta** o **relativa** al **archivo** o **directorio**.
+* `options`: { validate : false } || { validate : true }
 
-- [x] **Recursión o recursividad**
-
-  <details><summary>Links</summary><p>
-
-  * [Píldora recursión - YouTube Laboratoria Developers](https://www.youtube.com/watch?v=lPPgY3HLlhQ)
-  * [Recursión o Recursividad - Laboratoria Developers en Medium](https://medium.com/laboratoria-developers/recursi%C3%B3n-o-recursividad-ec8f1a359727)
-</p></details>
-
-- [x] **Módulos de CommonJS**
-
-  <details><summary>Links</summary><p>
-
-  * [Modules: CommonJS modules - Node.js Docs](https://nodejs.org/docs/latest/api/modules.html)
-</p></details>
-
-- [ ] **Diferenciar entre expresiones (expressions) y sentencias (statements)**
-
-- [x] **Callbacks**
-
-  <details><summary>Links</summary><p>
-
-  * [Función Callback - MDN](https://developer.mozilla.org/es/docs/Glossary/Callback_function)
-</p></details>
-
-- [x] **Promesas**
-
-  <details><summary>Links</summary><p>
-
-  * [Promise - MDN](https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Global_Objects/Promise)
-  * [How to Write a JavaScript Promise - freecodecamp (en inglés)](https://www.freecodecamp.org/news/how-to-write-a-javascript-promise-4ed8d44292b8/)
-</p></details>
-
-- [x] **Pruebas unitarias (unit tests)**
-
-  <details><summary>Links</summary><p>
-
-  * [Empezando con Jest - Documentación oficial](https://jestjs.io/docs/es-ES/getting-started)
-</p></details>
-
-- [x] **Pruebas asíncronas**
-
-  <details><summary>Links</summary><p>
-
-  * [Tests de código asincrónico con Jest - Documentación oficial](https://jestjs.io/docs/es-ES/asynchronous)
-</p></details>
-
-- [x] **Uso de mocks y espías**
-
-  <details><summary>Links</summary><p>
-
-  * [Manual Mocks con Jest - Documentación oficial](https://jestjs.io/docs/es-ES/manual-mocks)
-</p></details>
-
-- [ ] **Pruebas de compatibilidad en múltiples entornos de ejecución**
-
-- [x] **Uso de linter (ESLINT)**
-
-- [x] **Uso de identificadores descriptivos (Nomenclatura y Semántica)**
-
-### Node.js
-
-- [x] **Instalar y usar módulos con npm**
-
-  <details><summary>Links</summary><p>
-
-  * [Sitio oficial de npm (en inglés)](https://www.npmjs.com/)
-</p></details>
-
-- [x] **Configuración de package.json**
-
-  <details><summary>Links</summary><p>
-
-  * [package.json - Documentación oficial (en inglés)](https://docs.npmjs.com/files/package.json)
-</p></details>
-
-- [x] **Configuración de npm-scripts**
-
-  <details><summary>Links</summary><p>
-
-  * [scripts - Documentación oficial (en inglés)](https://docs.npmjs.com/misc/scripts)
-</p></details>
-
-- [x] **process (env, argv, stdin-stdout-stderr, exit-code)**
-
-  <details><summary>Links</summary><p>
-
-  * [Process - Documentación oficial (en inglés)](https://nodejs.org/api/process.html)
-</p></details>
-
-- [x] **File system (fs, path)**
-
-  <details><summary>Links</summary><p>
-
-  * [File system - Documentación oficial (en inglés)](https://nodejs.org/api/fs.html)
-  * [Path - Documentación oficial (en inglés)](https://nodejs.org/api/path.html)
-</p></details>
-
-### Control de Versiones (Git y GitHub)
-
-- [x] **Git: Instalación y configuración**
-
-- [x] **Git: Control de versiones con git (init, clone, add, commit, status, push, pull, remote)**
-
-- [x] **Git: Integración de cambios entre ramas (branch, checkout, fetch, merge, reset, rebase, tag)**
-
-- [x] **GitHub: Creación de cuenta y repos, configuración de llaves SSH**
-
-- [x] **GitHub: Colaboración en Github (branches | forks | pull requests | code review | tags)**
-
-- [x] **GitHub: Organización en Github (projects | issues | labels | milestones | releases)**
-
-### HTTP
-
-- [x] **Consulta o petición (request) y respuesta (response).**
-
-  <details><summary>Links</summary><p>
-
-  * [Generalidades del protocolo HTTP - MDN](https://developer.mozilla.org/es/docs/Web/HTTP/Overview)
-  * [Mensajes HTTP - MDN](https://developer.mozilla.org/es/docs/Web/HTTP/Messages)
-</p></details>
-
-- [x] **Códigos de status de HTTP**
-
-  <details><summary>Links</summary><p>
-
-  * [Códigos de estado de respuesta HTTP - MDN](https://developer.mozilla.org/es/docs/Web/HTTP/Status)
-  * [The Complete Guide to Status Codes for Meaningful ReST APIs - dev.to](https://dev.to/khaosdoctor/the-complete-guide-to-status-codes-for-meaningful-rest-apis-1-5c5)
-</p></details>
+### - Valor de retorno
+Promesa.
+Para `{ validate : false }` : Array de objetos, cada uno representa un link con su información respectiva.
+Para `{ validate : true }` : Array de objetos, cada uno representa un link con su información respectiva y status a partir de consulta http.
