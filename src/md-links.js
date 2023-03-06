@@ -12,10 +12,10 @@ const {
 
 } = require('./utils.js');
 
-const validDirPath = './files-to-read';
+/* const validDirPath = './files-to-read';
 const absolutePath = 'C:\\Users\\melan\\Desktop\\Proyectos Laboratoria\\DEV002-md-links\\files-to-read';
 const validateFalseOp = { validate: false }
-const validateTrueOp = { validate: true }
+const validateTrueOp = { validate: true } */
 
 const mdLinks = (path, option) => {
     const mdLinksPromise = new Promise((resolve, reject) => {
@@ -82,7 +82,5 @@ const mdLinks = (path, option) => {
 
 /* mdLinks(absolutePath, validateFalseOp)
     .then(console.log) */
-
-
 
 module.exports = { mdLinks }

@@ -58,9 +58,6 @@ const readDirRecursive = (myPath) => { //entra ruta
         return mdFiles; //devuelve array de archivos md (rutas)
     }
 };
-// console.log(readDirRecursive('./files-to-read'))
-
-const ruta = './files-to-read/indice-preambulo.md';
 
 // leyendo archivo md. Retorna objeto con path y data
 const readMdFile = file => {
@@ -150,8 +147,6 @@ const getStatus = (parsedLinksArr) => {
     })
     return Promise.all(validatedLinks)
 };
-
-
 
 module.exports = {
     isValidPath,
