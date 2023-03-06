@@ -18,15 +18,14 @@ const cli = () => {
         // comportamiento por defecto
         if (!firstOption && !secondOption) {
             mdLinks(entryPath, validateFalse)
-                .then(console.log
-                    /* (arr) => {
+                .then(console.log)
+                       /* (arr) => {
                     const info = arr.forEach(e => {
                         const resultsStr = `${e.file} ${e.href} ${e.text}`;
                         console.log(resultsStr)
                     });
                     return info
                 } */
-                )
                 .catch(console.error)
         }
         // opción validate
