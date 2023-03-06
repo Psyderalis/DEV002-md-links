@@ -60,5 +60,6 @@ const cli = () => {
             console.log('revisa las parametros')
         }
     }
-}
+};
+
 module.exports = { cli }
