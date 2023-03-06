@@ -8,6 +8,7 @@ const {
 } = require('./src/stats.js')
 
 const cli = () => {
+   // console.log('ejecutado')
     const validateFalse = { validate: false }
     const validateTrue = { validate: true }
     const entryPath = process.argv[2]
@@ -60,4 +61,6 @@ const cli = () => {
         }
     }
 }
+
+cli();
 module.exports = { cli }
