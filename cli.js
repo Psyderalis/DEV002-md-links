@@ -8,6 +8,7 @@ const {
 } = require('./src/stats.js')
 
 const cli = () => {
+   // console.log('ejecutado')
     const validateFalse = { validate: false }
     const validateTrue = { validate: true }
     const entryPath = process.argv[2]
@@ -18,15 +19,14 @@ const cli = () => {
         // comportamiento por defecto
         if (!firstOption && !secondOption) {
             mdLinks(entryPath, validateFalse)
-                .then(console.log
-                    /* (arr) => {
+                .then(console.log)
+                       /* (arr) => {
                     const info = arr.forEach(e => {
                         const resultsStr = `${e.file} ${e.href} ${e.text}`;
                         console.log(resultsStr)
                     });
                     return info
                 } */
-                )
                 .catch(console.error)
         }
         // opción validate
@@ -60,6 +60,9 @@ const cli = () => {
             console.log('revisa las parametros')
         }
     }
-};
+
+}
+
+cli();
 
 module.exports = { cli }
