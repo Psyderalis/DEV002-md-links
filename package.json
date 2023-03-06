@@ -6,7 +6,7 @@
   "author": "Melanie Tolvett S. <melanietolvett@gmail.com>",
   "main": "src/index.js",
   "bin": {
-    "md-links": "cli.js"},
+    "cli.js": "cli.js"},
   "repository": "github:Psyderalis/DEV002-md-links",
   "scripts": {
     "eslint": "eslint --ext .js src/ test/",
