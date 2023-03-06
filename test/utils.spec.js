@@ -9,8 +9,9 @@ const {
   analiseUrls,
   validateUrl,
   getStatus,
-  axios
+ // axios
 } = require('../src/utils.js');
+ const axios = require( 'axios')
 
 const validMDPath = './files-to-read/achicando.md';
 const validDirPath = './files-to-read';
@@ -33,7 +34,7 @@ const parsedLink = [{
 }];
 
 // mock para módulo 
-jest.mock(axios);
+jest.mock('axios');
 
 
 /* ---------------------------------------------------------------
@@ -174,7 +175,7 @@ describe('test to analiseUrls()', () => {
   })
 });
 
-/* //test para obtener el status de un link
+//test para obtener el status de un link
 describe('test to getStatus()', () => {
   test('Returns an array of promises with objects representin validated links', () => {
     axios.get.mockResolvedValue({status: 200, statusText: 'OK'})
@@ -190,4 +191,4 @@ describe('test to getStatus()', () => {
     const result = getStatus(parsedLink);
    return expect(result).toEqual(linkStatusArr);
   });
-}); */
+});
