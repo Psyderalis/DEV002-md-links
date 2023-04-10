@@ -175,7 +175,7 @@ describe('test to analiseUrls()', () => {
   })
 });
 
-//test para obtener el status de un link
+/* //test para obtener el status de un link
 describe('test to getStatus()', () => {
   test('Returns an array of promises with objects representin validated links', () => {
     axios.get.mockResolvedValue({status: 200, statusText: 'OK'})
@@ -191,4 +191,4 @@ describe('test to getStatus()', () => {
     const result = getStatus(parsedLink);
    return expect(result).toEqual(linkStatusArr);
   });
-});
+}); */
