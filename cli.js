@@ -65,4 +65,4 @@ const cli = () => {
 
 cli();
 
-module.exports = { cli }
+module.exports = cli
